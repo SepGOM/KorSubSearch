@@ -1,0 +1,48 @@
+{
+  "importBatchId": "BATCH-20260915",
+  "sources": [
+    {
+      "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-SEOUL_METRO",
+      "rowCount": 808
+    },
+    {
+      "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-BUSAN",
+      "rowCount": 158
+    },
+    {
+      "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-DAEGU",
+      "rowCount": 102
+    },
+    {
+      "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-GWANGJU",
+      "rowCount": 20
+    },
+    {
+      "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-DAEJEON",
+      "rowCount": 22
+    },
+    {
+      "sourceId": "SRC-KTX-SRT-GAME-LINES",
+      "rowCount": 207
+    },
+    {
+      "sourceId": "SRC-MUGUNGHWA-PATTERNS",
+      "rowCount": 392
+    }
+  ],
+  "rawRowCount": 1709,
+  "importedStationLineCount": 1709,
+  "stationCount": 1127,
+  "mergedGroupCount": 278,
+  "reviewPairCount": 819,
+  "lineCount": 77,
+  "regionCounts": {
+    "SEOUL_METRO": 808,
+    "BUSAN": 158,
+    "DAEGU": 102,
+    "GWANGJU": 20,
+    "DAEJEON": 22,
+    "KTX": 207,
+    "MUGUNGHWA": 392
+  }
+}

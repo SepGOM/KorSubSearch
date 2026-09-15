@@ -1,0 +1,23 @@
+game_line,origin_type,pattern_id
+경부선,KTX,P01
+경부선,KTX,P02
+경부선,KTX,P03
+경부선,SRT,P06
+경부선,SRT,P07
+호남선,KTX,P10
+호남선,KTX,P11
+호남선,KTX,P12
+호남선,SRT,P15
+호남선,SRT,P16
+전라선,KTX,P13
+전라선,KTX,P14
+전라선,SRT,P17
+강릉선,KTX,P18
+강릉선,KTX,P19
+중앙선,KTX,P20
+동해선,KTX,P05
+동해선,SRT,P09
+동해선 전구간,KTX,P22
+경전선,KTX,P04
+경전선,SRT,P08
+중부내륙선,KTX,P21

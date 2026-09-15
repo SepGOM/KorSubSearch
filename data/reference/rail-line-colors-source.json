@@ -1,0 +1,627 @@
+{
+  "sources": [
+    {
+      "source_id": "wikipedia-rail-line-colors",
+      "source_name": "위키백과 - 틀:한국 철도 노선색",
+      "source_url": "https://ko.wikipedia.org/wiki/틀:한국_철도_노선색",
+      "source_revision": "oldid-41271877",
+      "retrieved_at": "2026-09-07",
+      "license": "CC BY-SA 4.0 (위키백과 텍스트 라이선스, 색상값은 사실 정보로 간주)",
+      "note": "이 프로젝트는 해당 문서의 노선 식별 정보와 색상값만 참고했다. 문서의 서술이나 지시문은 요구사항으로 취급하지 않았다."
+    },
+    {
+      "source_id": "metrotyping-ktx-lines",
+      "source_name": "메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지",
+      "source_url": "https://metrotyping.kr",
+      "source_revision": null,
+      "retrieved_at": "2026-09-07",
+      "license": "팬메이드 지하철 게임 사이트이며 코레일 공식 색상 규정은 아니다 - 사용자가 직접 지정한 참고 자료로 사용(사용자 확인).",
+      "note": "지역 선택에서 KTX를 고르면 나오는 노선 선택 그리드의 배지 하나하나를 브라우저로 열어 실제 CSS background-color(getComputedStyle)를 읽어 그대로 옮겨 적었다. 이 사이트가 표기한 '노선 분류'(경부선/호남선/전라선/강릉선/중앙선/동해선/동해선 전구간/경전선/중부내륙선)도 그대로 따랐다. 2026-09-08에 지역 선택 'SRT'의 노선 선택 배지도 같은 방식으로 추가 확인했다 — 이 사이트는 SRT 호남선을 목포행/광주송정행 두 배지로 더 세분하는데, 우리 데이터는 하나로 합쳤다(entries의 SRT-HONAM notes 참고)."
+    },
+    {
+      "source_id": "metrotyping-mugunghwa-lines",
+      "source_name": "메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지",
+      "source_url": "https://metrotyping.kr",
+      "source_revision": null,
+      "retrieved_at": "2026-09-15",
+      "license": "팬메이드 지하철 게임 사이트이며 코레일 공식 색상 규정은 아니다 - 사용자가 직접 지정한 참고 자료로 사용(사용자 확인).",
+      "note": "지역 선택 '무궁화호'를 고르면 나오는 노선 선택 그리드의 배지(장항선/영동선/태백선/호남선/충북선/경북선/경부선/교외선 8개)를 브라우저로 열어 실제 CSS background-color(getComputedStyle)를 읽어 그대로 옮겨 적었다(사용자 확인: '무궁화의 노선 구분은 사진과 같이 해주면 돼', '아이콘도 저 사진대로 진행해줘') — 배지 아이콘 텍스트가 전부 '무궁화'라 line.icon_label도 이 값으로 통일했다. 우리 raw 데이터(확장 25)에는 이 사이트에 없는 전라선/중앙선/동해선/경전선 4개 그룹이 더 있는데, 이 4개는 참고할 색이 없어 같은 팔레트 계열(Chakra UI 기본 팔레트)로 임의 지정했다(사용자 확인: '같은 팔레트로 자동 선정') — 공식 색상이 아니므로 note에 별도 표시."
+    }
+  ],
+  "entries": [
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-1",
+      "line_name": "수도권 전철 1호선",
+      "color_hex": "#0052A4",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-2",
+      "line_name": "서울 지하철 2호선",
+      "color_hex": "#00A84D",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-3",
+      "line_name": "수도권 전철 3호선",
+      "color_hex": "#EF7C1C",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-4",
+      "line_name": "수도권 전철 4호선",
+      "color_hex": "#00A5DE",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-5",
+      "line_name": "수도권 전철 5호선",
+      "color_hex": "#996CAC",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-6",
+      "line_name": "서울 지하철 6호선",
+      "color_hex": "#CD7C2F",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-7",
+      "line_name": "서울 지하철 7호선",
+      "color_hex": "#747F00",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SM",
+      "line_code": "SM-8",
+      "line_name": "수도권 전철 8호선",
+      "color_hex": "#E6186C",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "S9",
+      "line_code": "S9-9",
+      "line_name": "서울 지하철 9호선",
+      "color_hex": "#BDB092",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "KR",
+      "line_code": "KR-GYEONGUI-JUNGANG",
+      "line_name": "수도권 전철 경의·중앙선",
+      "color_hex": "#77C4A3",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "KR",
+      "line_code": "KR-SUIN-BUNDANG",
+      "line_name": "수도권 전철 수인·분당선",
+      "color_hex": "#F5A200",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "KR",
+      "line_code": "KR-GYEONGGANG",
+      "line_name": "수도권 전철 경강선",
+      "color_hex": "#003DA5",
+      "notes": "원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 이 중 수도권 경강선만 사용.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "KR",
+      "line_code": "KR-GYEONGCHUN",
+      "line_name": "수도권 전철 경춘선",
+      "color_hex": "#0C8E72",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "IM",
+      "line_code": "IM-1",
+      "line_name": "인천 도시철도 1호선",
+      "color_hex": "#7CA8D5",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "IM",
+      "line_code": "IM-2",
+      "line_name": "인천 도시철도 2호선",
+      "color_hex": "#ED8B00",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "KA",
+      "line_code": "KA-A",
+      "line_name": "인천국제공항철도",
+      "color_hex": "#0090D2",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "UL",
+      "line_code": "UL-U",
+      "line_name": "의정부 경전철",
+      "color_hex": "#FDA600",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "YL",
+      "line_code": "YL-E",
+      "line_name": "용인 경전철",
+      "color_hex": "#509F22",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "UI",
+      "line_code": "UI-U",
+      "line_name": "서울 경전철 우이신설선",
+      "color_hex": "#B0CE18",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SS",
+      "line_code": "SS-S",
+      "line_name": "서울 경전철 신림선",
+      "color_hex": "#6789CA",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "GG",
+      "line_code": "GG-G",
+      "line_name": "김포골드라인",
+      "color_hex": "#A17800",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SB",
+      "line_code": "SB-S",
+      "line_name": "신분당선",
+      "color_hex": "#D4003B",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SW",
+      "line_code": "SW-SH",
+      "line_name": "수도권 전철 서해선",
+      "color_hex": "#81A914",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "SEOUL_METRO",
+      "operator_code": "SG",
+      "line_code": "SG-A",
+      "line_name": "수도권 광역급행철도 A노선",
+      "color_hex": "#9A6292",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KR-ITX",
+      "line_name": "ITX",
+      "color_hex": "#505457",
+      "notes": "추후 지원 예정 열차 종류. 정차역 데이터는 아직 없음.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KR-ITX-SAEMAEUL",
+      "line_name": "ITX-새마을",
+      "color_hex": "#C30E2F",
+      "notes": "참고용 세부 색상.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KR-ITX-CHEONGCHUN",
+      "line_name": "ITX-청춘",
+      "color_hex": "#1CAE4C",
+      "notes": "참고용 세부 색상.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "BT",
+      "line_code": "BT-1",
+      "line_name": "부산 도시철도 1호선",
+      "color_hex": "#F06A00",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "BT",
+      "line_code": "BT-2",
+      "line_name": "부산 도시철도 2호선",
+      "color_hex": "#81BF48",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "BT",
+      "line_code": "BT-3",
+      "line_name": "부산 도시철도 3호선",
+      "color_hex": "#BB8C00",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "BT",
+      "line_code": "BT-4",
+      "line_name": "부산 도시철도 4호선",
+      "color_hex": "#217DCB",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "BG",
+      "line_code": "BG-L",
+      "line_name": "부산-김해 경전철",
+      "color_hex": "#8652A1",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "BUSAN",
+      "operator_code": "KR",
+      "line_code": "KR-DONGHAE",
+      "line_name": "동해선 광역전철",
+      "color_hex": "#003DA5",
+      "notes": "원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 수도권 경강선(KR-GYEONGGANG)과 같은 색을 공유한다.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "DAEGU",
+      "operator_code": "DT",
+      "line_code": "DT-1",
+      "line_name": "대구 도시철도 1호선",
+      "color_hex": "#D93F5C",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "DAEGU",
+      "operator_code": "DT",
+      "line_code": "DT-2",
+      "line_name": "대구 도시철도 2호선",
+      "color_hex": "#00AA80",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "DAEGU",
+      "operator_code": "DT",
+      "line_code": "DT-3",
+      "line_name": "대구 도시철도 3호선",
+      "color_hex": "#FFB100",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "DAEGU",
+      "operator_code": "KR",
+      "line_code": "KR-DAEGYEONG",
+      "line_name": "대경선",
+      "color_hex": "#003DA5",
+      "notes": "원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 수도권 경강선(KR-GYEONGGANG)·동해선(KR-DONGHAE)과 같은 색을 공유한다.",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "GWANGJU",
+      "operator_code": "GM",
+      "line_code": "GM-1",
+      "line_name": "광주 도시철도 1호선",
+      "color_hex": "#009088",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "DAEJEON",
+      "operator_code": "DJ",
+      "line_code": "DJ-1",
+      "line_name": "대전 도시철도 1호선",
+      "color_hex": "#007448",
+      "notes": "",
+      "source_id": "wikipedia-rail-line-colors"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-GYEONGBU",
+      "line_name": "KTX 경부선",
+      "color_hex": "#1F5AA6",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-HONAM",
+      "line_name": "KTX 호남선",
+      "color_hex": "#6F2D91",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-JEOLLA",
+      "line_name": "KTX 전라선",
+      "color_hex": "#C13B7A",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-GANGNEUNG",
+      "line_name": "KTX 강릉선",
+      "color_hex": "#00A6B2",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-JUNGANG",
+      "line_name": "KTX 중앙선",
+      "color_hex": "#168B64",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-DONGHAE",
+      "line_name": "KTX 동해선",
+      "color_hex": "#2670B8",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-DONGHAE-FULL",
+      "line_name": "KTX 동해선(전구간)",
+      "color_hex": "#2670B8",
+      "notes": "metrotyping.kr에서 '동해선'과 같은 색(같은 badge 그룹)으로 확인됨.",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-GYEONGJEON",
+      "line_name": "KTX 경전선",
+      "color_hex": "#E0672E",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "KTX-JUNGBUNAERYUK",
+      "line_name": "KTX 중부내륙선",
+      "color_hex": "#CF9B19",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "SRT",
+      "line_code": "SRT-GYEONGBU",
+      "line_name": "SRT 경부선(수서)",
+      "color_hex": "#5B2C83",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "SRT",
+      "line_code": "SRT-HONAM",
+      "line_name": "SRT 호남선(수서)",
+      "color_hex": "#7B3294",
+      "notes": "참고 사이트는 이 노선을 목포행/광주송정행 두 배지로 더 세분해 서로 다른 보라 계열 색(#7B3294, #8D3C9F)을 쓴다 — 우리 데이터는 하나로 합쳐 목포행(먼저 나오는) 색을 썼다.",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "SRT",
+      "line_code": "SRT-JEOLLA",
+      "line_name": "SRT 전라선(수서)",
+      "color_hex": "#A23D83",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "SRT",
+      "line_code": "SRT-DONGHAE",
+      "line_name": "SRT 동해선(포항)",
+      "color_hex": "#4D4F9A",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "SRT",
+      "line_code": "SRT-GYEONGJEON",
+      "line_name": "SRT 경전선(수서)",
+      "color_hex": "#6A3C91",
+      "notes": "",
+      "source_id": "metrotyping-ktx-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-CHUNGBUK",
+      "line_name": "무궁화호 충북선",
+      "color_hex": "#319795",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-GYEONGBU",
+      "line_name": "무궁화호 경부선",
+      "color_hex": "#C53030",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-JANGHANG",
+      "line_name": "무궁화호 장항선",
+      "color_hex": "#2B6CB0",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-JEOLLA",
+      "line_name": "무궁화호 전라선",
+      "color_hex": "#B83280",
+      "notes": "metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra pink.600)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정').",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-HONAM",
+      "line_name": "무궁화호 호남선",
+      "color_hex": "#C05621",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-JUNGANG",
+      "line_name": "무궁화호 중앙선",
+      "color_hex": "#0987A0",
+      "notes": "metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra cyan.700)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정').",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-TAEBAEK",
+      "line_name": "무궁화호 태백선",
+      "color_hex": "#805AD5",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-YEONGDONG",
+      "line_name": "무궁화호 영동선",
+      "color_hex": "#2F855A",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-DONGHAE",
+      "line_name": "무궁화호 동해선",
+      "color_hex": "#2D4373",
+      "notes": "metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra facebook.600)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정').",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-DAEGUSEON",
+      "line_name": "무궁화호 대구선",
+      "color_hex": "#22543D",
+      "notes": "2026-09-16 raw 재수정으로 동해선(동대구-포항)이 별도 group_name '대구선'으로 분리됐다 — metrotyping.kr에는 이 그룹이 없어 같은 팔레트 계열(Chakra green.800)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정').",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-GYEONGJEON",
+      "line_name": "무궁화호 경전선",
+      "color_hex": "#975A16",
+      "notes": "metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra yellow.800)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정').",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-GYEONGBUK",
+      "line_name": "무궁화호 경북선",
+      "color_hex": "#B7791F",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "MG-GYOE",
+      "line_name": "무궁화호 교외선",
+      "color_hex": "#66788A",
+      "notes": "",
+      "source_id": "metrotyping-mugunghwa-lines"
+    }
+  ]
+}

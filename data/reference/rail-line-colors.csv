@@ -1,0 +1,67 @@
+scope_code,operator_code,line_code,line_name,color_hex,text_color_hex,source_name,source_url,source_revision,verified_at,notes
+SEOUL_METRO,SM,SM-1,수도권 전철 1호선,#0052A4,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-2,서울 지하철 2호선,#00A84D,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-3,수도권 전철 3호선,#EF7C1C,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-4,수도권 전철 4호선,#00A5DE,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-5,수도권 전철 5호선,#996CAC,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-6,서울 지하철 6호선,#CD7C2F,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-7,서울 지하철 7호선,#747F00,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SM,SM-8,수도권 전철 8호선,#E6186C,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,S9,S9-9,서울 지하철 9호선,#BDB092,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,KR,KR-GYEONGUI-JUNGANG,수도권 전철 경의·중앙선,#77C4A3,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,KR,KR-SUIN-BUNDANG,수도권 전철 수인·분당선,#F5A200,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,KR,KR-GYEONGGANG,수도권 전철 경강선,#003DA5,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 이 중 수도권 경강선만 사용.
+SEOUL_METRO,KR,KR-GYEONGCHUN,수도권 전철 경춘선,#0C8E72,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,IM,IM-1,인천 도시철도 1호선,#7CA8D5,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,IM,IM-2,인천 도시철도 2호선,#ED8B00,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,KA,KA-A,인천국제공항철도,#0090D2,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,UL,UL-U,의정부 경전철,#FDA600,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,YL,YL-E,용인 경전철,#509F22,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,UI,UI-U,서울 경전철 우이신설선,#B0CE18,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SS,SS-S,서울 경전철 신림선,#6789CA,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,GG,GG-G,김포골드라인,#A17800,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SB,SB-S,신분당선,#D4003B,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SW,SW-SH,수도권 전철 서해선,#81A914,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+SEOUL_METRO,SG,SG-A,수도권 광역급행철도 A노선,#9A6292,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+TRAIN_SERVICE,KR,KR-ITX,ITX,#505457,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,추후 지원 예정 열차 종류. 정차역 데이터는 아직 없음.
+TRAIN_SERVICE,KR,KR-ITX-SAEMAEUL,ITX-새마을,#C30E2F,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,참고용 세부 색상.
+TRAIN_SERVICE,KR,KR-ITX-CHEONGCHUN,ITX-청춘,#1CAE4C,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,참고용 세부 색상.
+BUSAN,BT,BT-1,부산 도시철도 1호선,#F06A00,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+BUSAN,BT,BT-2,부산 도시철도 2호선,#81BF48,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+BUSAN,BT,BT-3,부산 도시철도 3호선,#BB8C00,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+BUSAN,BT,BT-4,부산 도시철도 4호선,#217DCB,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+BUSAN,BG,BG-L,부산-김해 경전철,#8652A1,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+BUSAN,KR,KR-DONGHAE,동해선 광역전철,#003DA5,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 수도권 경강선(KR-GYEONGGANG)과 같은 색을 공유한다.
+DAEGU,DT,DT-1,대구 도시철도 1호선,#D93F5C,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+DAEGU,DT,DT-2,대구 도시철도 2호선,#00AA80,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+DAEGU,DT,DT-3,대구 도시철도 3호선,#FFB100,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+DAEGU,KR,KR-DAEGYEONG,대경선,#003DA5,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,원 문서 값은 경강선·동해선 광역전철·대경선 공용색. 수도권 경강선(KR-GYEONGGANG)·동해선(KR-DONGHAE)과 같은 색을 공유한다.
+GWANGJU,GM,GM-1,광주 도시철도 1호선,#009088,#000000,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+DAEJEON,DJ,DJ-1,대전 도시철도 1호선,#007448,#FFFFFF,위키백과 - 틀:한국 철도 노선색,https://ko.wikipedia.org/wiki/틀:한국_철도_노선색,oldid-41271877,2026-09-07,
+TRAIN_SERVICE,KR,KTX-GYEONGBU,KTX 경부선,#1F5AA6,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-HONAM,KTX 호남선,#6F2D91,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-JEOLLA,KTX 전라선,#C13B7A,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-GANGNEUNG,KTX 강릉선,#00A6B2,#000000,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-JUNGANG,KTX 중앙선,#168B64,#000000,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-DONGHAE,KTX 동해선,#2670B8,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-DONGHAE-FULL,KTX 동해선(전구간),#2670B8,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,metrotyping.kr에서 '동해선'과 같은 색(같은 badge 그룹)으로 확인됨.
+TRAIN_SERVICE,KR,KTX-GYEONGJEON,KTX 경전선,#E0672E,#000000,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,KTX-JUNGBUNAERYUK,KTX 중부내륙선,#CF9B19,#000000,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,SRT,SRT-GYEONGBU,SRT 경부선(수서),#5B2C83,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,SRT,SRT-HONAM,SRT 호남선(수서),#7B3294,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,"참고 사이트는 이 노선을 목포행/광주송정행 두 배지로 더 세분해 서로 다른 보라 계열 색(#7B3294, #8D3C9F)을 쓴다 — 우리 데이터는 하나로 합쳐 목포행(먼저 나오는) 색을 썼다."
+TRAIN_SERVICE,SRT,SRT-JEOLLA,SRT 전라선(수서),#A23D83,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,SRT,SRT-DONGHAE,SRT 동해선(포항),#4D4F9A,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,SRT,SRT-GYEONGJEON,SRT 경전선(수서),#6A3C91,#FFFFFF,메트로타이핑(metrotyping.kr) 퀴즈 플레이 화면 - KTX/SRT 노선 선택 배지,https://metrotyping.kr,,2026-09-07,
+TRAIN_SERVICE,KR,MG-CHUNGBUK,무궁화호 충북선,#319795,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-GYEONGBU,무궁화호 경부선,#C53030,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-JANGHANG,무궁화호 장항선,#2B6CB0,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-JEOLLA,무궁화호 전라선,#B83280,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra pink.600)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
+TRAIN_SERVICE,KR,MG-HONAM,무궁화호 호남선,#C05621,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-JUNGANG,무궁화호 중앙선,#0987A0,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra cyan.700)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
+TRAIN_SERVICE,KR,MG-TAEBAEK,무궁화호 태백선,#805AD5,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-YEONGDONG,무궁화호 영동선,#2F855A,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-DONGHAE,무궁화호 동해선,#2D4373,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra facebook.600)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
+TRAIN_SERVICE,KR,MG-DAEGUSEON,무궁화호 대구선,#22543D,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"2026-09-16 raw 재수정으로 동해선(동대구-포항)이 별도 group_name '대구선'으로 분리됐다 — metrotyping.kr에는 이 그룹이 없어 같은 팔레트 계열(Chakra green.800)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
+TRAIN_SERVICE,KR,MG-GYEONGJEON,무궁화호 경전선,#975A16,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra yellow.800)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
+TRAIN_SERVICE,KR,MG-GYEONGBUK,무궁화호 경북선,#B7791F,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,MG-GYOE,무궁화호 교외선,#66788A,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,

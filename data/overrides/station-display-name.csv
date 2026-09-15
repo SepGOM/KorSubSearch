@@ -1,0 +1,2 @@
+source_record_id,display_name,reason,verified_by,verified_at
+GL-경부선-KTX-S063,울산(통도사)역,"KTX/SRT 울산역에 부역명 '통도사'를 추가한다(사용자 확인) — 원본(game_line_stations.csv)의 '울산'은 그대로 두고 override로만 표시명을 바꾼다.",user,2026-09-08

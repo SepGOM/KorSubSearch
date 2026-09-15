@@ -1,0 +1,50 @@
+{
+  "name": "korsub",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "대한민국 역명 통합 검색 — 데스크톱 전용 (Tauri 2 + React)",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint",
+    "typecheck": "tsc -b --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "tauri": "tauri",
+    "db:import": "tsx scripts/import/run-import.ts",
+    "db:export-index": "tsx scripts/import/export-search-index.ts",
+    "db:validate": "tsx scripts/validate/run-validate.ts",
+    "colors:generate": "tsx scripts/import/generate-line-colors.ts",
+    "colors:validate": "tsx scripts/validate/validate-line-colors.ts"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.9.0",
+    "@tauri-apps/plugin-sql": "^2.4.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@tailwindcss/vite": "^4.1.0",
+    "@tauri-apps/cli": "^2.9.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "csv-parse": "^5.6.0",
+    "jsdom": "^25.0.1",
+    "oxlint": "^1.79.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.19.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0",
+    "xlsx": "^0.18.5"
+  }
+}
