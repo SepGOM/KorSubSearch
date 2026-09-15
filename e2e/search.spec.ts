@@ -346,7 +346,9 @@ test('"이 노선의 역 보기"는 현재 범위 밖 노선과의 환승도 보
   // 부전은 KTX 범위 안(KTX-중앙)뿐 아니라 부산 동해선(지하철, 다른 범위)·부산
   // 1호선(2026-09-16 사용자 확인으로 환승 가능 정정)·무궁화호 동해선(확장 25
   // 직후 환승역 정리, 2026-09-15)과도 환승된다. "동해선"은 "무궁화-동해선"의
-  // 부분 문자열이라 exact 매칭으로 구분한다.
+  // 부분 문자열이라 exact 매칭으로 구분한다(2026-09-16 확인: 무궁화호 노선명에서
+  // "무궁화-" 접두어를 뗐지만, 동해선만은 부산 광역전철 "동해선"과 이름이
+  // 겹쳐서 예외로 접두어를 유지한다 — mugunghwaDefinitions.ts 참고).
   const bujeon = items.filter({ hasText: '부전' })
   await expect(bujeon.getByRole('img', { name: '동해선', exact: true })).toBeVisible()
   await expect(bujeon.getByRole('img', { name: '무궁화-동해선', exact: true })).toBeVisible()
@@ -600,7 +602,7 @@ test('무궁화호 "충북선"을 고르면 대표(동대구-영주) 패널과 �
   // 독립적으로 고를 수 있는 노선이 아니다(사용자 확인: "노선 선택 토글에서는
   // 무궁화-장항선의 이전 KTX와 동일한 방식으로 진행해주면 돼").
   await expect(page.getByRole('button', { name: '서울-영주', exact: true })).not.toBeVisible()
-  await page.getByRole('button', { name: '무궁화-충북선', exact: true }).click()
+  await page.getByRole('button', { name: '충북선', exact: true }).click()
 
   // 대표 패널: 그룹명 없이 "동대구-영주"로만 표시된다(station_list_label,
   // 사용자 확인: "지선 처리가 되어있는 무궁화호 노선일 경우, 토글박스의 아이콘
