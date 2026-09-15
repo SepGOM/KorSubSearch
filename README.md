@@ -2,6 +2,8 @@
 
 전국 지하철·전철·광역철도의 역명을 노선까지 포함해 하나로 통합 검색하는 **데스크톱 전용** 프로그램입니다. 인터넷 연결 없이 동작합니다.
 
+[메트로타이핑(metrotyping.kr)](https://metrotyping.kr) 게임을 더 편하게 즐기고 실제 노선을 익히려는 목적으로 만들기 시작한 개인 프로젝트입니다 — metrotyping과 공식적인 제휴는 없습니다.
+
 **저장소**: [github.com/SepGOM/KorSubSearch](https://github.com/SepGOM/KorSubSearch)
 
 - 화면·문서: 한국어 / 코드 식별자: 영어
