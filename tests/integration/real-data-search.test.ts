@@ -1073,23 +1073,23 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
   // 2026-09-16 raw 재수정으로 "경부선 서울-제천"이 "충북선 서울-영주"로 통합되며
   // 경부선은 계통이 하나만 남아 평면 노선이 됐고, 옛 "동해선(동대구-포항)"이
   // "대구선"이라는 새 그룹으로 분리됐다.
-  it('노선 선택에는 group_name 13개만 나온다 — 2026-09-15 확인으로 "무궁화-" 접두어를 뗐다(동해선만 이름 충돌로 예외)', () => {
+  it('노선 선택에는 group_name 13개(무궁화-*)만 나온다', () => {
     const lines = deriveSelectableLines(mugunghwaRecords)
     expect(lines.map((l) => l.displayName).sort()).toEqual(
       [
-        '경부선',
-        '경북선',
-        '경전선',
-        '교외선',
-        '대구선',
-        '무궁화-동해선', // 예외: 부산 광역전철 "동해선"과 이름이 겹쳐 접두어를 유지한다
-        '영동선',
-        '장항선',
-        '전라선',
-        '중앙선',
-        '충북선',
-        '태백선',
-        '호남선',
+        '무궁화-경부선',
+        '무궁화-경북선',
+        '무궁화-경전선',
+        '무궁화-교외선',
+        '무궁화-대구선',
+        '무궁화-동해선',
+        '무궁화-영동선',
+        '무궁화-장항선',
+        '무궁화-전라선',
+        '무궁화-중앙선',
+        '무궁화-충북선',
+        '무궁화-태백선',
+        '무궁화-호남선',
       ].sort(),
     )
     // 참고 사이트(metrotyping.kr)의 아이콘 배지를 그대로 따라 아이콘 글자는
@@ -1097,10 +1097,13 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
     expect(lines.every((l) => l.iconLabel === '무궁화')).toBe(true)
   })
 
-  it('단일 계통 그룹(경부선·대구선 등)은 KTX와 같은 평면 노선이다 — stationListLabel 없이 displayName 그대로', () => {
+  it('단일 계통 그룹(경부선·대구선 등)은 KTX와 같은 평면 노선이다 — 노선 선택 버튼은 "무궁화-OO선", 토글박스 이름(stationListLabel)은 "OO선"만 쓴다', () => {
+    // 2026-09-15: "단일 노선 시 토글 박스에서도 '00선'만 보이게" — 접두어를 뗐다가
+    // "전체 범위에서 헷갈린다"는 확인으로 버튼 이름은 되돌렸고(확장 33), 토글박스만
+    // stationListLabel로 "OO선"을 유지한다.
     for (const name of ['장항선', '경부선', '대구선']) {
-      const line = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === name)!
-      expect(line.stationListLabel, `${name}은 stationListLabel이 없어야 함`).toBeNull()
+      const line = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === `무궁화-${name}`)!
+      expect(line.stationListLabel, `무궁화-${name}의 토글박스 이름`).toBe(name)
       expect(deriveChildLines(mugunghwaRecords, line.lineId)).toHaveLength(0)
       expect(listStationsOnLine(mugunghwaRecords, line.lineId).length).toBeGreaterThan(0)
     }
@@ -1110,7 +1113,7 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
     // 사용자 확인: "지선 처리가 되어있는 무궁화호 노선일 경우, 토글박스의
     // 아이콘 명은 경유하는 역만 작성 — 무궁화-충북선일 경우 두개의 토글박의
     // 아이콘은 (서울-영주) / (동대구-영주) 이렇게 구성".
-    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '충북선')!
+    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '무궁화-충북선')!
     expect(carrier.stationListLabel).toBe('동대구-영주')
     const children = deriveChildLines(mugunghwaRecords, carrier.lineId)
     expect(children.map((l) => l.displayName)).toEqual(['서울-영주'])
@@ -1126,7 +1129,7 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
   })
 
   it('대표-자식이 겹치는 역(오송)에는 "↳ 갈림" 분기 표시도, 서로 환승 배지도 붙지 않는다', () => {
-    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '충북선')!
+    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '무궁화-충북선')!
     const child = deriveChildLines(mugunghwaRecords, carrier.lineId)[0]
     const stationOnCarrier = listStationsOnLine(mugunghwaRecords, carrier.lineId).find(
       (s) => s.displayStationName === '오송역',
@@ -1145,11 +1148,11 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
   it('검색하면 겹치는 역이라도 그룹 배지 하나만 뜬다(운행계통은 환승으로 표기하지 않음)', () => {
     const grouped = searchGrouped(mugunghwaRecords, '오송', { limit: 20 })
     const osongGroup = grouped.find((g) => g.displayStationName === '오송역')!
-    expect(osongGroup.lines.map((l) => l.line.displayName)).toEqual(['충북선'])
+    expect(osongGroup.lines.map((l) => l.line.displayName)).toEqual(['무궁화-충북선'])
   })
 
   it('3계통 그룹(호남선)에서는 대표가 아닌 두 자식(형제)끼리도 서로 환승 배지를 보여주지 않는다', () => {
-    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '호남선')!
+    const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '무궁화-호남선')!
     const [child1, child2] = deriveChildLines(mugunghwaRecords, carrier.lineId)
     expect([child1.displayName, child2.displayName]).toEqual(['용산-목포', '광주-목포'])
 
@@ -1162,14 +1165,14 @@ describe('실제 데이터: 무궁화호 — group_name(노선 선택) × patter
     expect(sharedStation.branchLines).toHaveLength(0)
   })
 
-  it('동해선 그룹은 이제 계통이 둘뿐이다(대구선이 별도 그룹으로 분리됨) — 부산 광역전철과 이름이 겹쳐 "무궁화-" 접두어를 유지하는 유일한 예외다', () => {
+  it('동해선 그룹은 이제 계통이 둘뿐이다(대구선이 별도 그룹으로 분리됨)', () => {
     const carrier = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '무궁화-동해선')!
     expect(carrier.stationListLabel).toBe('동대구-부전')
     const children = deriveChildLines(mugunghwaRecords, carrier.lineId)
     expect(children.map((l) => l.displayName)).toEqual(['부전~포항'])
 
-    const daeguseon = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '대구선')!
-    expect(daeguseon.stationListLabel).toBeNull()
+    const daeguseon = deriveSelectableLines(mugunghwaRecords).find((l) => l.displayName === '무궁화-대구선')!
+    expect(daeguseon.stationListLabel).toBe('대구선')
     expect(deriveChildLines(mugunghwaRecords, daeguseon.lineId)).toHaveLength(0)
     const daeguseonStations = listStationsOnLine(mugunghwaRecords, daeguseon.lineId).map((s) => s.displayStationName)
     expect(daeguseonStations[0]).toBe('동대구역')
@@ -1224,12 +1227,12 @@ describe('실제 데이터: 무궁화호 ↔ 타 지역 환승역 정리 (statio
 
   it('KTX와 같은 물리적 역사를 공용하는 무궁화호 주요 역은 실제로 병합된다(경부선·호남선·전라선·영동선·경전선·대구선 각 1건)', () => {
     const cases: Array<[string, string]> = [
-      ['충북선', '대전역'],
+      ['무궁화-충북선', '대전역'],
       ['용산-목포', '목포역'],
-      ['전라선', '여수엑스포역'],
-      ['영동선', '안동역'],
-      ['경전선', '진주역'],
-      ['대구선', '포항역'],
+      ['무궁화-전라선', '여수엑스포역'],
+      ['무궁화-영동선', '안동역'],
+      ['무궁화-경전선', '진주역'],
+      ['무궁화-대구선', '포항역'],
     ]
     for (const [mgLine, name] of cases) {
       const mgId = stationIdOf(mgLine, name)
@@ -1240,11 +1243,11 @@ describe('실제 데이터: 무궁화호 ↔ 타 지역 환승역 정리 (statio
   })
 
   it('도시철도·광역전철과 같은 물리적 역사를 공용하는 역도 병합된다(대구·부산·수도권전철 각 1건)', () => {
-    expect(stationIdOf('충북선', '대구역')).toBe(stationIdOf('대구 1호선', '대구역'))
-    expect(stationIdOf('경부선', '화명역')).toBe(
+    expect(stationIdOf('무궁화-충북선', '대구역')).toBe(stationIdOf('대구 1호선', '대구역'))
+    expect(stationIdOf('무궁화-경부선', '화명역')).toBe(
       records.find((r) => r.displayStationName === '화명역' && r.regionCode === 'BUSAN')!.stationId,
     )
-    expect(stationIdOf('중앙선', '청량리역')).toBe(stationIdOf('1호선', '청량리(서울시립대입구)역'))
+    expect(stationIdOf('무궁화-중앙선', '청량리역')).toBe(stationIdOf('1호선', '청량리(서울시립대입구)역'))
   })
 
   it('김천역과 김천(구미)역은 이름이 비슷해도 다른 역이다(2026-09-15 아산/천안아산식 병합 → 2026-09-16 사용자 확인으로 정정)', () => {
@@ -1259,12 +1262,12 @@ describe('실제 데이터: 무궁화호 ↔ 타 지역 환승역 정리 (statio
 
   it('이름만 같을 뿐 실제로는 다른 지역인 역은 병합하지 않는다(상동·연산·판교·신기·양원·김천)', () => {
     const pairs: Array<[string, string, string, string]> = [
-      ['경부선', '상동역', '7호선', '상동역'],
-      ['전라선', '연산역', '부산 1호선', '연산역'],
-      ['장항선', '판교역', '신분당선', '판교(판교테크노밸리)역'],
-      ['태백선', '신기역', '대구 1호선', '신기역'],
-      ['영동선', '양원역', '경의중앙선', '양원(서울시북부병원)역'],
-      ['충북선', '김천역', 'KTX-경부-행신착발', '김천(구미)역'],
+      ['무궁화-경부선', '상동역', '7호선', '상동역'],
+      ['무궁화-전라선', '연산역', '부산 1호선', '연산역'],
+      ['무궁화-장항선', '판교역', '신분당선', '판교(판교테크노밸리)역'],
+      ['무궁화-태백선', '신기역', '대구 1호선', '신기역'],
+      ['무궁화-영동선', '양원역', '경의중앙선', '양원(서울시북부병원)역'],
+      ['무궁화-충북선', '김천역', 'KTX-경부-행신착발', '김천(구미)역'],
     ]
     for (const [mgLine, mgName, otherLine, otherName] of pairs) {
       const mgId = stationIdOf(mgLine, mgName)
@@ -1279,9 +1282,9 @@ describe('실제 데이터: 무궁화호 ↔ 타 지역 환승역 정리 (statio
     const daejeon = grouped.find((g) => g.displayStationName === '대전역')!
     const badgeNames = daejeon.lines.map((l) => l.line.displayName)
     // 대전은 무궁화호 두 계통(충북선의 직행, 경부선(서울-부산)의 경유)에 모두
-    // 걸리는데, 후자는 자식 노선이라 대표("경부선")로 치환되어 나온다.
-    expect(badgeNames).toContain('충북선')
-    expect(badgeNames).toContain('경부선')
+    // 걸리는데, 후자는 자식 노선이라 대표("무궁화-경부선")로 치환되어 나온다.
+    expect(badgeNames).toContain('무궁화-충북선')
+    expect(badgeNames).toContain('무궁화-경부선')
     expect(badgeNames).toContain('대전 1호선')
     expect(badgeNames.some((n) => n.startsWith('KTX') && n.endsWith('행신착발'))).toBe(true)
     expect(badgeNames.some((n) => n.startsWith('KTX') && n.endsWith('수서착발'))).toBe(true)
@@ -1593,7 +1596,7 @@ describe('실제 데이터: ITX-새마을 (mugunghwa-ITXsaemaul/itx_saemaul_*.cs
     const grouped = searchGrouped(records, '서울', { limit: 5 })
     const seoul = grouped.find((g) => g.displayStationName === '서울역')!
     const badgeNames = seoul.lines.map((l) => l.line.displayName)
-    expect(badgeNames).toEqual(expect.arrayContaining(['ITX-새마을-경부', 'ITX-새마을-경전', '경부선', 'KTX-경부-행신착발']))
+    expect(badgeNames).toEqual(expect.arrayContaining(['ITX-새마을-경부', 'ITX-새마을-경전', '무궁화-경부선', 'KTX-경부-행신착발']))
     expect(new Set(badgeNames).size).toBe(badgeNames.length)
   })
 
