@@ -129,9 +129,8 @@ describe('실제 데이터: 노선명/별칭 검색 — 경전철 (서울)', () 
     }
   })
 
-  it('경천철(오타) → 경전철 관련 결과가 그대로 나온다', () => {
-    const results = search(seoulRecords, '경천철', { limit: 50 })
-    expect(results.length).toBeGreaterThan(0)
+  it('경천철(오타)은 결과가 없다 — 오타 유사일치는 제거됐다(2026-09-19 사용자 요청)', () => {
+    expect(search(seoulRecords, '경천철', { limit: 50 })).toHaveLength(0)
   })
 
   it('용인 경전철 → 용인경전철(에버라인) 노선 결과', () => {
@@ -148,8 +147,7 @@ describe('실제 데이터: 노선명/별칭 검색 — 경전철 (서울)', () 
     // 고쳐서(2026-09-14) override가 필요 없어졌다 — 원본을 직접 고친 경우라
     // "운동장.송담대"라는 옛 표기는 데이터 어디에도 더 안 남는다(엑셀 편집이라
     // 과거 값이 남는 이름 변경 override와 다르다).
-    // limit을 넉넉히 줘서, 유사 이름과의 오타 유사일치(FUZZY_MATCH, 예: "가정중앙시장")가
-    // 섞여도 대상 역이 잘리지 않게 한다 — 검증 대상은 완전일치 여부다.
+    // 검증 대상은 완전일치 여부다.
     const renamed = search(seoulRecords, '용인중앙시장', { limit: 10 })
     expect(renamed[0].record.officialStationName).toBe('용인중앙시장역')
     expect(renamed[0].record.line.displayName).toBe('용인경전철')
@@ -166,8 +164,7 @@ describe('실제 데이터: 동명이역 분리 (서울)', () => {
 
 describe('실제 데이터: 총신대입구(이수) — 사람이 확인한 환승역 병합', () => {
   it('4호선 총신대입구역과 7호선 이수역이 하나의 station으로 합쳐진다', () => {
-    // limit을 넉넉히 줘서, 이 이름과 우연히 오타 유사 일치하는 다른 역이 있어도
-    // 대상 역 두 행이 모두 잘리지 않게 한다 — 검증 대상은 정확히 그 역이다.
+    // limit을 넉넉히 줘서 대상 역 두 행이 잘리지 않게 한다 — 검증 대상은 정확히 그 역이다.
     const results = search(seoulRecords, '총신대입구', { limit: 50 })
     const merged = results.filter((r) => r.record.officialStationName === '총신대입구(이수)역')
     expect(merged).toHaveLength(2)
@@ -1381,23 +1378,19 @@ describe('실제 데이터: 서울과 부산의 같은 번호 노선은 서로 �
 })
 
 describe('실제 데이터: 운행 범위', () => {
-  it('scope_option 에 5개 지역 + KTX/무궁화호가 AVAILABLE 이고 나머지 열차 종류는 COMING_SOON 이다(2026-09-16 2차: SRT는 KTX로 통합돼 별도 버튼이 없다)', () => {
+  it('scope_option 에 5개 지역 + KTX/ITX/무궁화호가 모두 AVAILABLE 이다(2026-09-16 2차: SRT는 KTX로 통합돼 별도 버튼이 없다, 2026-09-19: ITX-새마을 추가로 ITX도 열림)', () => {
     const scopes = loadScopeOptions(db)
     const regionCodes = ['SEOUL_METRO', 'BUSAN', 'DAEGU', 'GWANGJU', 'DAEJEON']
     for (const code of regionCodes) {
       expect(scopes.find((s) => s.scope_code === code)?.status).toBe('AVAILABLE')
     }
     expect(scopes.find((s) => s.scope_code === 'SRT')).toBeUndefined()
-    for (const code of ['KTX', 'MUGUNGHWA']) {
+    for (const code of ['KTX', 'ITX', 'MUGUNGHWA']) {
       expect(scopes.find((s) => s.scope_code === code)?.status).toBe('AVAILABLE')
       expect(scopes.find((s) => s.scope_code === code)?.kind).toBe('TRAIN_SERVICE')
     }
-
-    const otherTrainServices = scopes.filter(
-      (s) => s.kind === 'TRAIN_SERVICE' && s.scope_code !== 'KTX' && s.scope_code !== 'MUGUNGHWA',
-    )
-    expect(otherTrainServices.length).toBeGreaterThan(0)
-    expect(otherTrainServices.every((s) => s.status === 'COMING_SOON')).toBe(true)
+    // COMING_SOON으로 남은 열차 종류는 이제 없다.
+    expect(scopes.some((s) => s.status === 'COMING_SOON')).toBe(false)
   })
 
   it('모든 station_line 레코드는 5개 지역 또는 KTX·무궁화호(line.regionCode 기준) 중 하나에 속한다', () => {
@@ -1517,7 +1510,7 @@ describe('실제 데이터: 노선 번호 토큰의 지역 모호성(사용자 �
 })
 
 describe('실제 데이터: 지선 소속 역은 지선 자신의 이름이 아니라 본선명으로만 키워드 검색된다(사용자 확인: "필터링 되는 노선 명 키워드는 본선명 즉 parents 명만... 마천지선 또는 경의1선과 같은걸로는 필터링 되지 않게")', () => {
-  it('"망우선"으로는 망우선(지선) 자신이 노선 키워드로 걸리지 않는다(본선명 "경춘"으로는 나온다) — 실제로 "망우역"이 있어 오타 유사일치로 그 역만 나올 수 있지만, 그건 지선 키워드와는 무관한 역명 매칭이다', () => {
+  it('"망우선"으로는 망우선(지선) 자신이 노선 키워드로 걸리지 않는다(본선명 "경춘"으로는 나온다)', () => {
     const byBranchKeyword = search(seoulRecords, '망우선', { limit: 50 })
     expect(byBranchKeyword.every((r) => r.record.line.displayName !== '망우선')).toBe(true)
     const byMainName = search(seoulRecords, '경춘', { limit: 50 })
@@ -1532,5 +1525,80 @@ describe('실제 데이터: 지선 소속 역은 지선 자신의 이름이 아�
     expect(search(seoulRecords, '경의1선', { limit: 50 })).toHaveLength(0)
     const byMainName = search(seoulRecords, '경의', { limit: 50 })
     expect(byMainName.some((r) => r.record.officialStationName === '서울역')).toBe(true)
+  })
+})
+
+describe('실제 데이터: ITX-새마을 (mugunghwa-ITXsaemaul/itx_saemaul_*.csv, 무궁화호 역 마스터 재사용, 2026-09-19)', () => {
+  // ITX-새마을은 무궁화호와 같은 재래선 역들을 쓰기 때문에 역 마스터를 그대로
+  // 재사용한다(사용자 확인). 같은 pseudo-region("MUGUNGHWA")에 line.trainServiceCode
+  // 만 "ITX"로 달리해 "운행 범위 선택"에서 별도 버튼(ITX)으로 나뉜다.
+  const itx = () => records.filter((r) => r.line.trainServiceCode === 'ITX')
+
+  it('노선 선택에는 경부·경전·호남·전라 4개만 나온다 — 호남선의 두 번째 계통(용산-광주)은 자식이라 빠진다', () => {
+    const lines = deriveSelectableLines(itx())
+    expect(lines.map((l) => l.displayName)).toEqual([
+      'ITX-새마을-경부',
+      'ITX-새마을-경전',
+      'ITX-새마을-호남',
+      'ITX-새마을-전라',
+    ])
+    expect(lines.every((l) => l.iconLabel === '새마을')).toBe(true)
+    // 색은 사용자가 준 참고 이미지(Railmap 전국 일반여객철도 노선도)에서 옮겼다.
+    expect(lines.map((l) => l.colorHex)).toEqual(['#1361A4', '#009BCD', '#F09F7F', '#91659F'])
+  })
+
+  it('호남선은 대표(용산-목포)+자식(용산-광주) 토글이다 — 토글 이름은 구간만, 역 목록은 pattern_stops 순서 그대로', () => {
+    const carrier = deriveSelectableLines(itx()).find((l) => l.displayName === 'ITX-새마을-호남')!
+    expect(carrier.stationListLabel).toBe('용산-목포')
+    const children = deriveChildLines(itx(), carrier.lineId)
+    expect(children.map((l) => l.displayName)).toEqual(['용산-광주'])
+    expect(children[0].colorHex).toBe('#D37D6F')
+
+    const carrierStations = listStationsOnLine(itx(), carrier.lineId).map((s) => s.displayStationName)
+    const childStations = listStationsOnLine(itx(), children[0].lineId).map((s) => s.displayStationName)
+    expect(carrierStations).toHaveLength(27)
+    expect(carrierStations[0]).toBe('용산역')
+    expect(carrierStations.at(-1)).toBe('목포역')
+    expect(childStations).toHaveLength(22)
+    expect(childStations.at(-1)).toBe('광주역')
+  })
+
+  it('경부·경전·전라 노선의 역 순서는 원본 그대로다(서울/용산 출발)', () => {
+    const byName = (name: string) => deriveSelectableLines(itx()).find((l) => l.displayName === name)!
+    const names = (name: string) => listStationsOnLine(itx(), byName(name).lineId).map((s) => s.displayStationName)
+    const gyeongbu = names('ITX-새마을-경부')
+    expect(gyeongbu).toHaveLength(31)
+    expect(gyeongbu.slice(0, 3)).toEqual(['서울역', '영등포역', '안양역'])
+    expect(gyeongbu.at(-1)).toBe('부산역')
+    const gyeongjeon = names('ITX-새마을-경전')
+    expect(gyeongjeon).toHaveLength(20)
+    expect(gyeongjeon.at(-1)).toBe('진주역')
+    const jeolla = names('ITX-새마을-전라')
+    expect(jeolla).toHaveLength(23)
+    expect(jeolla[0]).toBe('용산역')
+    expect(jeolla.at(-1)).toBe('여수엑스포역')
+  })
+
+  it('ITX 역은 전부 무궁화호와 같은 station으로 합쳐진다(역 마스터 재사용) — 무궁화호 노선 선택은 그대로 13개다', () => {
+    const mgStationIds = new Set(mugunghwaRecords.map((r) => r.stationId))
+    expect(itx().length).toBeGreaterThan(0)
+    expect(itx().every((r) => mgStationIds.has(r.stationId))).toBe(true)
+    expect(deriveSelectableLines(mugunghwaRecords)).toHaveLength(13)
+    expect(mugunghwaRecords.some((r) => r.line.displayName.startsWith('ITX'))).toBe(false)
+  })
+
+  it('서울역 검색 결과에 ITX-새마을·무궁화호·KTX 배지가 함께 붙는다(무궁화호와 이름이 겹치지 않는다)', () => {
+    const grouped = searchGrouped(records, '서울', { limit: 5 })
+    const seoul = grouped.find((g) => g.displayStationName === '서울역')!
+    const badgeNames = seoul.lines.map((l) => l.line.displayName)
+    expect(badgeNames).toEqual(expect.arrayContaining(['ITX-새마을-경부', 'ITX-새마을-경전', '경부선', 'KTX-경부-행신착발']))
+    expect(new Set(badgeNames).size).toBe(badgeNames.length)
+  })
+
+  it('scope_option의 ITX는 AVAILABLE이고 train_service_code="ITX"로 걸러낸다', () => {
+    const scope = loadScopeOptions(db).find((s) => s.scope_code === 'ITX')!
+    expect(scope.status).toBe('AVAILABLE')
+    expect(scope.kind).toBe('TRAIN_SERVICE')
+    expect(scope.train_service_code).toBe('ITX')
   })
 })

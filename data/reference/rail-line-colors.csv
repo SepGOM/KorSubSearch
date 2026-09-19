@@ -65,3 +65,8 @@ TRAIN_SERVICE,KR,MG-DAEGUSEON,무궁화호 대구선,#22543D,#FFFFFF,메트로�
 TRAIN_SERVICE,KR,MG-GYEONGJEON,무궁화호 경전선,#975A16,#FFFFFF,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,"metrotyping.kr 무궁화호 탭에는 이 그룹이 없어 같은 팔레트 계열(Chakra yellow.800)로 임의 지정 — 공식 색상 아님, 추후 확인 필요(사용자 확인: '같은 팔레트로 자동 선정')."
 TRAIN_SERVICE,KR,MG-GYEONGBUK,무궁화호 경북선,#B7791F,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
 TRAIN_SERVICE,KR,MG-GYOE,무궁화호 교외선,#66788A,#000000,메트로타이핑(metrotyping.kr) 타이핑 플레이 화면 - 무궁화호 노선 선택 배지,https://metrotyping.kr,,2026-09-15,
+TRAIN_SERVICE,KR,ITX-SAEMAUL-GYEONGBU,ITX-새마을 경부선(서울-부산),#1361A4,#FFFFFF,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
+TRAIN_SERVICE,KR,ITX-SAEMAUL-GYEONGJEON,ITX-새마을 경전선(서울-진주),#009BCD,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
+TRAIN_SERVICE,KR,ITX-SAEMAUL-HONAM,ITX-새마을 호남선(용산-목포),#F09F7F,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
+TRAIN_SERVICE,KR,ITX-SAEMAUL-HONAM-GWANGJU,ITX-새마을 호남선(용산-광주),#D37D6F,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
+TRAIN_SERVICE,KR,ITX-SAEMAUL-JEOLLA,ITX-새마을 전라선(용산-여수엑스포),#91659F,#FFFFFF,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,

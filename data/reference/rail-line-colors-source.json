@@ -26,6 +26,15 @@
       "retrieved_at": "2026-09-15",
       "license": "팬메이드 지하철 게임 사이트이며 코레일 공식 색상 규정은 아니다 - 사용자가 직접 지정한 참고 자료로 사용(사용자 확인).",
       "note": "지역 선택 '무궁화호'를 고르면 나오는 노선 선택 그리드의 배지(장항선/영동선/태백선/호남선/충북선/경북선/경부선/교외선 8개)를 브라우저로 열어 실제 CSS background-color(getComputedStyle)를 읽어 그대로 옮겨 적었다(사용자 확인: '무궁화의 노선 구분은 사진과 같이 해주면 돼', '아이콘도 저 사진대로 진행해줘') — 배지 아이콘 텍스트가 전부 '무궁화'라 line.icon_label도 이 값으로 통일했다. 우리 raw 데이터(확장 25)에는 이 사이트에 없는 전라선/중앙선/동해선/경전선 4개 그룹이 더 있는데, 이 4개는 참고할 색이 없어 같은 팔레트 계열(Chakra UI 기본 팔레트)로 임의 지정했다(사용자 확인: '같은 팔레트로 자동 선정') — 공식 색상이 아니므로 note에 별도 표시."
+    },
+    {
+      "source_id": "railmap-national-map",
+      "source_name": "Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",
+      "source_url": "https://rail.it.kr",
+      "source_revision": "2026-09-01",
+      "retrieved_at": "2026-09-19",
+      "license": "팬메이드 노선도이며 코레일 공식 색상 규정은 아니다 - 사용자가 직접 제공한 참고 이미지를 사용(사용자 확인).",
+      "note": "사용자가 제공한 노선도 이미지에서 ITX-새마을 노선 라벨(경부선 서울-부산/경전선 서울-진주/호남선 용산-목포/호남선 용산-광주/전라선 용산-여수엑스포)의 배경색을 픽셀 표본(라벨 영역 최빈값)으로 읽어 옮겼다(사용자 확인: '노선 색상은 이미지 파일 확인해서 사용해도 되고, 너가 하고싶은대로 해도 돼')."
     }
   ],
   "entries": [
@@ -622,6 +631,51 @@
       "color_hex": "#66788A",
       "notes": "",
       "source_id": "metrotyping-mugunghwa-lines"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "ITX-SAEMAUL-GYEONGBU",
+      "line_name": "ITX-새마을 경부선(서울-부산)",
+      "color_hex": "#1361A4",
+      "notes": "",
+      "source_id": "railmap-national-map"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "ITX-SAEMAUL-GYEONGJEON",
+      "line_name": "ITX-새마을 경전선(서울-진주)",
+      "color_hex": "#009BCD",
+      "notes": "",
+      "source_id": "railmap-national-map"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "ITX-SAEMAUL-HONAM",
+      "line_name": "ITX-새마을 호남선(용산-목포)",
+      "color_hex": "#F09F7F",
+      "notes": "",
+      "source_id": "railmap-national-map"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "ITX-SAEMAUL-HONAM-GWANGJU",
+      "line_name": "ITX-새마을 호남선(용산-광주)",
+      "color_hex": "#D37D6F",
+      "notes": "",
+      "source_id": "railmap-national-map"
+    },
+    {
+      "scope_code": "TRAIN_SERVICE",
+      "operator_code": "KR",
+      "line_code": "ITX-SAEMAUL-JEOLLA",
+      "line_name": "ITX-새마을 전라선(용산-여수엑스포)",
+      "color_hex": "#91659F",
+      "notes": "",
+      "source_id": "railmap-national-map"
     }
   ]
 }

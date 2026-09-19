@@ -372,3 +372,15 @@
 - **13개 group_name 중 12개에서 "무궁화-" 제거**: `mugunghwaDefinitions.ts`의 displayName을 "무궁화-충북선" → "충북선" 등으로 바꿨다. 단일 계통(평면) 노선은 stationListLabel이 없어 토글박스가 displayName을 그대로 쓰므로, 이 변경만으로 "단일 노선 시 토글박스에서도 'OO선'만" 요청도 함께 충족됐다. 다중 계통 그룹(충북선·호남선·경전선)의 대표는 토글박스에서 여전히 자기 구간(예: "동대구-영주")을 보여준다 — "노선 선택" 버튼의 displayName만 바뀌었다.
 - **동해선 예외 발견**: 재수입 후 DB를 직접 조회해, 부산 광역전철에 이미 별개의 "동해선"(`KR-DONGHAE`)이 있고 기장·남창·부전·센텀·신해운대·태화강 6개 역에서 두 "동해선"이 실제로 같은 역을 공유(이미 병합됨)한다는 걸 확인했다 — 접두어를 떼면 이 역들의 검색 결과에 이름이 완전히 같은 배지가 색만 다른 채로 두 개 뜨는 충돌이 생긴다. 사용자에게 처리 방향을 물으려 했으나 질문 도중 세션이 끊겨, 제시했던 추천안(동해선만 "무궁화-동해선" 예외 유지)으로 직접 진행했다 — 나머지 12개 그룹과 부산 광역전철 "동해선"·KTX 등 다른 모든 노선명은 그대로 두는 가장 안전한 선택지였다.
 - **검증**: 재수입 → `db:validate` 통과. 단위/통합 테스트(무궁화호 group_name 목록·동해선 그룹 테스트 등)와 e2e(부전역 환승 배지 exact 매칭) 갱신 — 255개 단위/통합 + 31개 e2e 전부 통과, tsc/oxlint/build/cargo check 통과. 브라우저로 "무궁화호" 범위에서 12개 버튼이 접두어 없이("충북선" 등), "무궁화-동해선"만 예외로 나오는 것과, "부전" 검색 결과에 "동해선"(부산 광역전철)·"무궁화-동해선" 두 배지가 이름으로 정확히 구분되는 것을 직접 확인했다.
+
+## 확장 31: ITX-새마을 추가 + 오타 유사일치 제거
+
+사용자가 "ITX-새마을 노선을 추가하자"며 원본(`data/raw/mugunghwa-ITXsaemaul/itx_saemaul_patterns.csv`·`itx_saemaul_pattern_stops.csv`)과 게임 화면·Railmap 전국 노선도 이미지를 줬다. "ITX-새마을이 무궁화호와 같은 재래선 역들을 쓰다 보니 station 마스터를 그대로 재사용하였음. 따라서 일부 파일 경로가 변경되기도 하였음." — 무궁화호 원본 3종이 `data/raw/mugunghwa/` → `data/raw/mugunghwa-ITXsaemaul/`로 옮겨졌다(내용은 그대로).
+
+- **로더**: `itxSaemaulSource.ts`가 무궁화호와 똑같은 방식으로 조인하되 역 이름은 `mugunghwa_stations.csv`를 그대로 쓴다(`mugunghwaSource.ts`의 `RAW_DIR`·`stripBom`·행 타입을 export해 재사용). `sourceRecordId`는 `ITX-<pattern_id>-<station_id>`로 무궁화호(`MG-…`)와 겹치지 않는다. 5개 pattern(IS01 경부·IS02 경전·IS03/IS04 호남·IS05 전라, 123행) → 노선 정의는 `itxSaemaulDefinitions.ts`.
+- **구조**: 무궁화호와 같은 규칙 — 계통이 하나뿐인 경부·경전·전라는 평면 노선, 호남만 대표(IS03 용산-목포, 토글 이름 "용산-목포")+자식(IS04 "용산-광주", `suppressBranchTag`)이다. 노선 선택에는 4개만 뜬다.
+- **이름·아이콘**: "ITX-새마을-경부" 등(KTX와 같은 `<종류>-<노선>` 형식, "선" 생략), 아이콘 "새마을". 무궁화호처럼 접두어를 떼지 않았다 — 무궁화호와 같은 역에서 나란히 환승 배지로 뜨므로 무궁화호 "경부선"과 이름이 겹치면 구분이 안 된다(확장 30에서 동해선으로 겪은 충돌 방지).
+- **지역/범위**: 역 마스터를 공유하므로 무궁화호와 같은 pseudo-region("MUGUNGHWA")에 두고 `line.train_service_code="ITX"`만 달리했다 — "같은 region + 같은 역명" 자동 병합으로 ITX 67개 역이 전부 무궁화호 역과 하나로 합쳐지고, 기존에 확인해 둔 무궁화호↔KTX·도시철도 환승도 그대로 이어받는다(별도 override 없음). `train_service`/`scope_option`의 ITX는 COMING_SOON → AVAILABLE(region_code "MUGUNGHWA", 화면 필터는 train_service_code).
+- **색상**: 제공된 Railmap 노선도 이미지의 노선 라벨 영역 최빈 픽셀값을 옮겼다(경부 `#1361A4`·경전 `#009BCD`·호남 용산-목포 `#F09F7F`·용산-광주 `#D37D6F`·전라 `#91659F`) — `rail-line-colors-source.json`에 새 출처 `railmap-national-map`으로 기록(공식 색 아님).
+- **오타 유사일치 제거(사용자 요청)**: 새 ITX 노선의 별칭 "ITX"가 편집 거리 1로 "GTX"와 걸려 "GTX-A" 검색에 ITX 노선이 섞이는 회귀가 드러난 직후, 사용자가 "오타 유사일치 시스템 제거"를 요청했다. `score.ts`에서 `FUZZY_MATCH` 범주·랭크와 `fuzzyIncludes` 호출을 없애고 `src/lib/normalize/fuzzy.ts`·`tests/unit/fuzzy.test.ts`를 삭제했다(`LINE_FILTER_ONLY_RANK`는 9→8). 이제 역명·초성·노선 별칭이 정확히 포함될 때만 검색된다("경천철" 같은 오타는 결과 없음).
+- **검증**: 재수입(1709→1832행) + `db:validate` 통과. 단위/통합 테스트 256개(ITX 전용 6건 신설, 퍼지 관련 3건 갱신, scope_option 테스트에서 COMING_SOON이 하나도 남지 않음을 확인) + e2e 33개(옛 "ITX 추후 지원 비활성" 테스트를 "모든 범위 활성"으로 교체, ITX 범위·서울역 환승 배지 2건 신설) 통과.

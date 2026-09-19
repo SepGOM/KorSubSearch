@@ -29,6 +29,7 @@ import {
 } from './sources/nationalRegionSource'
 import { loadKtxGameLineSource } from './sources/ktxGameLineSource'
 import { loadMugunghwaSource } from './sources/mugunghwaSource'
+import { loadItxSaemaulSource } from './sources/itxSaemaulSource'
 import { exportSearchIndex } from './export-search-index'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -55,6 +56,7 @@ const SOURCE_LOADERS = [
   loadDaejeonNationalSource,
   loadKtxGameLineSource,
   loadMugunghwaSource,
+  loadItxSaemaulSource,
 ]
 
 interface OverrideRow {
@@ -500,8 +502,9 @@ function main(): void {
     regionStmt.run('KTX', 'KTX', 'AVAILABLE', 6)
     regionStmt.run('MUGUNGHWA', '무궁화호', 'AVAILABLE', 7)
 
-    // train_service — KTX/무궁화호는 실제 정차역 데이터가 들어와 AVAILABLE이다.
-    // ITX는 아직 데이터가 없어 COMING_SOON을 유지한다.
+    // train_service — KTX/ITX/무궁화호는 실제 정차역 데이터가 들어와 AVAILABLE이다.
+    // ITX는 확장 31에서 ITX-새마을 데이터가 들어와 COMING_SOON을 벗었다(ITX-청춘·
+    // ITX-마음은 아직 데이터가 없다).
     // SRT는 2026-09-16(2차) 사용자 확인("KTX 노선 SRT 노선 병합... SRT 명도
     // KTX로 통합")에 따라 별도 train_service/scope_option을 두지 않는다 —
     // 옛 SRT(수서발) 노선들은 이제 line.train_service_code="KTX"로 합류하고,
@@ -511,7 +514,7 @@ function main(): void {
       'INSERT INTO train_service (train_service_code, name_ko, status, sort_order) VALUES (?, ?, ?, ?)',
     )
     trainServiceStmt.run('KTX', 'KTX', 'AVAILABLE', 1)
-    trainServiceStmt.run('ITX', 'ITX', 'COMING_SOON', 2)
+    trainServiceStmt.run('ITX', 'ITX', 'AVAILABLE', 2)
     trainServiceStmt.run('MUGUNGHWA', '무궁화호', 'AVAILABLE', 3)
 
     // scope_option — 화면 상단 "운행 범위 선택" 그리드. KTX는 kind가
@@ -519,6 +522,8 @@ function main(): void {
     // 쓰는 노선이므로) — 다만 실제 화면 필터링은 region_code가 아니라
     // train_service_code로 한다(App.tsx의 candidatesForScope 참고). 무궁화호도
     // 같은 이유로 region_code를 자신의 pseudo-region("MUGUNGHWA")으로 채운다.
+    // ITX(ITX-새마을)도 무궁화호와 역 마스터를 공유해 같은 pseudo-region을 쓰므로
+    // region_code는 "MUGUNGHWA"지만, 화면 필터링은 train_service_code("ITX")로 한다.
     const scopeStmt = db.prepare(
       `INSERT INTO scope_option (scope_code, kind, name_ko, status, sort_order, region_code, train_service_code)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -530,7 +535,7 @@ function main(): void {
     scopeStmt.run('GWANGJU', 'REGION', '광주', 'AVAILABLE', 4, 'GWANGJU', null)
     scopeStmt.run('DAEJEON', 'REGION', '대전', 'AVAILABLE', 5, 'DAEJEON', null)
     scopeStmt.run('KTX', 'TRAIN_SERVICE', 'KTX', 'AVAILABLE', 6, 'KTX', 'KTX')
-    scopeStmt.run('ITX', 'TRAIN_SERVICE', 'ITX', 'COMING_SOON', 7, null, 'ITX')
+    scopeStmt.run('ITX', 'TRAIN_SERVICE', 'ITX', 'AVAILABLE', 7, 'MUGUNGHWA', 'ITX')
     scopeStmt.run('MUGUNGHWA', 'TRAIN_SERVICE', '무궁화호', 'AVAILABLE', 8, 'MUGUNGHWA', 'MUGUNGHWA')
 
     // line + line_alias

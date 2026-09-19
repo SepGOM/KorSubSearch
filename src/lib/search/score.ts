@@ -4,7 +4,6 @@
  * 1. 역명 완전일치      2. 역명 시작일치       3. 역명 일반 부분일치
  * 4. 초성열 완전일치    5. 초성열 시작일치     6. 초성열 연속 부분일치
  * 7. 별칭 일치 (노선명·노선 별칭·역 별칭을 포함)
- * 8. 오타 유사일치
  *
  * 숫자가 낮을수록 더 좋은 일치다. 노선 번호 토큰("3", "3호선")은 점수가 아니라
  * 통과/탈락을 가르는 필수 조건으로 별도 처리한다 (score 하지 않음).
@@ -12,7 +11,6 @@
 
 import { includesConsecutiveInitials, initialsExactMatch, initialsStartsWith, isInitialsQuery } from '../normalize/hangul'
 import { normalizeForCompare, stripStationSuffix } from '../normalize/text'
-import { fuzzyIncludes } from '../normalize/fuzzy'
 import type { LineRecord, StationLineRecord } from './types'
 
 export type MatchCategory =
@@ -23,7 +21,6 @@ export type MatchCategory =
   | 'INITIALS_PREFIX'
   | 'INITIALS_SUBSTRING'
   | 'ALIAS_MATCH'
-  | 'FUZZY_MATCH'
 
 /** 낮을수록 우선순위가 높다 (1위 = 역명 완전일치). */
 export const MATCH_CATEGORY_RANK: Record<MatchCategory, number> = {
@@ -34,11 +31,10 @@ export const MATCH_CATEGORY_RANK: Record<MatchCategory, number> = {
   INITIALS_PREFIX: 5,
   INITIALS_SUBSTRING: 6,
   ALIAS_MATCH: 7,
-  FUZZY_MATCH: 8,
 }
 
 /** 필터 전용 토큰 (노선 번호). 점수 랭크에는 포함되지 않는다. */
-export const LINE_FILTER_ONLY_RANK = 9
+export const LINE_FILTER_ONLY_RANK = 8
 
 export interface TokenMatch {
   token: string
@@ -50,8 +46,10 @@ export interface TokenMatch {
 
 /**
  * 하나의 텍스트 토큰(노선 번호가 아닌 토큰)을 레코드에 대해 채점한다.
- * 초성 입력이면 역 초성열만 대상으로, 아니면 역명 → 별칭(노선명·별칭 포함) →
- * 오타 유사 순으로 시도한다. 어느 것도 맞지 않으면 null (AND 조건 탈락).
+ * 초성 입력이면 역 초성열만 대상으로, 아니면 역명 → 별칭(노선명·별칭 포함) 순으로
+ * 시도한다. 어느 것도 맞지 않으면 null (AND 조건 탈락). 오타 유사일치는 두지
+ * 않는다 — 2026-09-19 사용자 요청으로 제거했다(짧은 노선 별칭이 다른 노선명과
+ * 오타로 뒤섞여 "GTX-A" 검색에 ITX 노선이 걸리는 등 오탐이 더 컸다).
  */
 export function matchTextToken(
   rawToken: string,
@@ -110,23 +108,6 @@ export function matchTextToken(
     const idx = alias.indexOf(compareToken)
     if (idx >= 0) {
       return { token: rawToken, category: 'ALIAS_MATCH', field: 'alias', matchIndex: idx }
-    }
-  }
-
-  // 오타 유사일치: 역명 먼저, 그다음 별칭/노선명. 단, 검색어에 숫자가 섞여 있으면
-  // 오타 유사일치를 적용하지 않는다 — 숫자는 "1"과 "2"처럼 실제로 다른 대상을
-  // 가리키는 정확한 식별자이지 오타가 아니고, 짧은 지역 키워드("대구1"·"대전1")는
-  // 길이가 3자뿐이라 편집 거리 1 허용 폭 안에서 서로("대구1"↔"대구2호선"의 부분
-  // 문자열, "대구1"↔"대전...") 뒤섞여 버린다 — 이 코드들을 도입한 목적(지역
-  // 구분)과 정반대가 된다.
-  if (!/\d/.test(compareToken)) {
-    if (fuzzyIncludes(stationName, compareToken)) {
-      return { token: rawToken, category: 'FUZZY_MATCH', field: 'stationName', matchIndex: 0 }
-    }
-    for (const alias of aliasHaystacks) {
-      if (fuzzyIncludes(alias, compareToken)) {
-        return { token: rawToken, category: 'FUZZY_MATCH', field: 'alias', matchIndex: 0 }
-      }
     }
   }
 

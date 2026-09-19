@@ -36,11 +36,10 @@ describe('matchTextToken (검색 점수 산정)', () => {
     expect(match?.category).toBe('ALIAS_MATCH')
   })
 
-  it('오타(경천철)는 FUZZY_MATCH로 잡힌다', () => {
+  it('오타(경천철)는 일치로 잡지 않는다 — 오타 유사일치는 제거됐다(2026-09-19 사용자 요청)', () => {
     const gyeongjeoncheolLine = makeLine({ officialName: '용인 경전철', displayName: '용인경전철' })
     const stop = makeStationLine('기흥역', gyeongjeoncheolLine)
-    const match = matchTextToken('경천철', stop)
-    expect(match?.category).toBe('FUZZY_MATCH')
+    expect(matchTextToken('경천철', stop)).toBeNull()
   })
 
   it('아무 것도 일치하지 않으면 null (AND 조건 탈락)', () => {

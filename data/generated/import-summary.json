@@ -1,5 +1,5 @@
 {
-  "importBatchId": "BATCH-20260915",
+  "importBatchId": "BATCH-20260919",
   "sources": [
     {
       "sourceId": "SRC-RAIL-OPERATOR-STATION-CODES-SEOUL_METRO",
@@ -28,14 +28,18 @@
     {
       "sourceId": "SRC-MUGUNGHWA-PATTERNS",
       "rowCount": 392
+    },
+    {
+      "sourceId": "SRC-ITX-SAEMAUL-PATTERNS",
+      "rowCount": 123
     }
   ],
-  "rawRowCount": 1709,
-  "importedStationLineCount": 1709,
+  "rawRowCount": 1832,
+  "importedStationLineCount": 1832,
   "stationCount": 1127,
-  "mergedGroupCount": 278,
-  "reviewPairCount": 819,
-  "lineCount": 77,
+  "mergedGroupCount": 281,
+  "reviewPairCount": 1333,
+  "lineCount": 82,
   "regionCounts": {
     "SEOUL_METRO": 808,
     "BUSAN": 158,
@@ -43,6 +47,6 @@
     "GWANGJU": 20,
     "DAEJEON": 22,
     "KTX": 207,
-    "MUGUNGHWA": 392
+    "MUGUNGHWA": 515
   }
 }

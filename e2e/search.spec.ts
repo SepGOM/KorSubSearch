@@ -18,20 +18,15 @@ test('운행 범위는 한 번에 하나만 선택된다', async ({ page }) => {
   await expect(seoul).toHaveAttribute('aria-checked', 'false')
 })
 
-test('아직 데이터가 없는 열차 종류(ITX)는 "추후 지원" 상태로 비활성화되어 있다', async ({ page }) => {
-  const itx = page.getByRole('radio', { name: 'ITX' })
-  await expect(itx).toBeDisabled()
-  await expect(page.getByText('추후 지원').first()).toBeVisible()
-
-  // 비활성 범위를 눌러도 선택은 바뀌지 않는다.
-  await itx.click({ force: true })
-  await expect(page.getByRole('radio', { name: '서울·수도권' })).toHaveAttribute('aria-checked', 'true')
+test('모든 운행 범위가 활성화되어 있어 "추후 지원" 표시가 더 이상 없다(2026-09-19: ITX-새마을 추가로 ITX도 열림)', async ({ page }) => {
+  await expect(page.getByRole('radio', { name: 'ITX' })).toBeEnabled()
+  await expect(page.getByText('추후 지원')).toHaveCount(0)
 })
 
-test('5개 지역(서울·수도권/부산/대구/광주/대전)과 KTX/무궁화호가 모두 활성화되어 있다(2026-09-16 2차: SRT는 KTX로 통합돼 별도 버튼이 없다)', async ({
+test('5개 지역(서울·수도권/부산/대구/광주/대전)과 KTX/ITX/무궁화호가 모두 활성화되어 있다(2026-09-16 2차: SRT는 KTX로 통합돼 별도 버튼이 없다)', async ({
   page,
 }) => {
-  for (const name of ['서울·수도권', '부산', '대구', '광주', '대전', 'KTX', '무궁화호']) {
+  for (const name of ['서울·수도권', '부산', '대구', '광주', '대전', 'KTX', 'ITX', '무궁화호']) {
     await expect(page.getByRole('radio', { name })).toBeEnabled()
   }
   await expect(page.getByRole('radio', { name: 'SRT' })).toHaveCount(0)
@@ -624,4 +619,28 @@ test('무궁화호 "충북선"을 고르면 대표(동대구-영주) 패널과 �
   await childPanelButton.click()
   const childList = page.getByRole('list').nth(1)
   await expect(childList).toContainText('서울')
+})
+
+test('ITX 범위: 노선 선택에 ITX-새마을 4개가 나오고, 호남선을 고르면 대표(용산-목포)·자식(용산-광주) 패널이 함께 나온다(2026-09-19)', async ({ page }) => {
+  await page.getByRole('radio', { name: 'ITX' }).click()
+  for (const name of ['ITX-새마을-경부', 'ITX-새마을-경전', 'ITX-새마을-호남', 'ITX-새마을-전라']) {
+    await expect(page.getByRole('button', { name, exact: true })).toBeVisible()
+  }
+  // 무궁화호 노선은 이 범위에 섞이지 않는다.
+  await expect(page.getByRole('button', { name: '충북선', exact: true })).toHaveCount(0)
+  // 자식 계통(용산-광주)은 "노선 선택"에 따로 뜨지 않는다.
+  await expect(page.getByRole('button', { name: /^용산-광주/ })).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'ITX-새마을-호남', exact: true }).click()
+  await expect(page.getByRole('button', { name: /^용산-목포.*이 노선의 역 (보기|접기)/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^용산-광주.*이 노선의 역 (보기|접기)/ })).toBeVisible()
+})
+
+test('ITX 범위: 서울역 검색 시 무궁화호·KTX 환승 배지가 함께 보인다(역 마스터 재사용)', async ({ page }) => {
+  await page.getByRole('radio', { name: 'ITX' }).click()
+  await page.getByRole('combobox').fill('서울')
+  const option = page.getByRole('listbox').getByRole('option').first()
+  await expect(option.getByRole('img', { name: 'ITX-새마을-경부', exact: true })).toBeVisible()
+  await expect(option.getByRole('img', { name: '경부선', exact: true })).toBeVisible()
+  await expect(option.getByRole('img', { name: 'KTX-경부-행신착발', exact: true })).toBeVisible()
 })

@@ -1,5 +1,5 @@
 /**
- * data/raw/mugunghwa/{mugunghwa_patterns,mugunghwa_pattern_stops,mugunghwa_stations}.csv
+ * data/raw/mugunghwa-ITXsaemaul/{mugunghwa_patterns,mugunghwa_pattern_stops,mugunghwa_stations}.csv
  * 원본을 다루기 위한 노선 정의(확장 25, 2026-09-16 raw 전면 재수정 반영).
  *
  * KTX(ktxGameLineDefinitions.ts)와 달리 이 원본은 사용자가 미리 조인해 둔 파일이

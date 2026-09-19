@@ -1,6 +1,7 @@
 /**
- * data/raw/mugunghwa/{mugunghwa_stations,mugunghwa_patterns,mugunghwa_pattern_stops}.csv
- * 로더 (확장 25). KTX(ktxGameLineSource.ts)와 달리 이 원본은 사용자가 미리
+ * data/raw/mugunghwa-ITXsaemaul/{mugunghwa_stations,mugunghwa_patterns,mugunghwa_pattern_stops}.csv
+ * 로더 (확장 25). 확장 31부터 폴더가 data/raw/mugunghwa-ITXsaemaul로 바뀌었다 —
+ * ITX-새마을이 무궁화호와 같은 역 마스터를 재사용하기 때문이다(itxSaemaulSource.ts). KTX(ktxGameLineSource.ts)와 달리 이 원본은 사용자가 미리
  * 조인해 둔 파일이 없어, 이 로더가 세 파일을 직접 조인한다:
  *
  *   mugunghwa_pattern_stops.csv (pattern_id, stop_order, station_id)
@@ -25,14 +26,14 @@ import { MUGUNGHWA_LINE_DEFINITIONS, MUGUNGHWA_REGION_CODE, MUGUNGHWA_SOURCE_ID 
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..', '..', '..')
-const RAW_DIR = resolve(ROOT, 'data/raw/mugunghwa')
+export const RAW_DIR = resolve(ROOT, 'data/raw/mugunghwa-ITXsaemaul')
 
-interface StationRow {
+export interface StationRow {
   station_id: string
   station_name: string
 }
 
-interface PatternRow {
+export interface PatternRow {
   pattern_id: string
   group_name: string
   pattern_name: string
@@ -40,7 +41,7 @@ interface PatternRow {
   train_type: string
 }
 
-interface PatternStopRow {
+export interface PatternStopRow {
   pattern_id: string
   stop_order: string
   station_id: string
@@ -52,7 +53,7 @@ interface PatternStopRow {
  * row.pattern_id가 매번 undefined가 되는 조용한 오류로 이어진다(2026-09-16 raw
  * 전면 재수정 때 실제로 겪음). 읽자마자 벗겨내 어느 쪽으로 저장해도 안전하게 한다.
  */
-function stripBom(text: string): string {
+export function stripBom(text: string): string {
   return text.charCodeAt(0) === 0xfeff ? text.slice(1) : text
 }
 
