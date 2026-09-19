@@ -32,16 +32,20 @@
     {
       "sourceId": "SRC-ITX-SAEMAUL-PATTERNS",
       "rowCount": 123
+    },
+    {
+      "sourceId": "SRC-ITX-CHEONGCHUN-PATTERNS",
+      "rowCount": 15
     }
   ],
-  "rawRowCount": 1832,
-  "importedStationLineCount": 1832,
+  "rawRowCount": 1847,
+  "importedStationLineCount": 1847,
   "stationCount": 1127,
-  "mergedGroupCount": 281,
-  "reviewPairCount": 1333,
-  "lineCount": 82,
+  "mergedGroupCount": 291,
+  "reviewPairCount": 1359,
+  "lineCount": 83,
   "regionCounts": {
-    "SEOUL_METRO": 808,
+    "SEOUL_METRO": 823,
     "BUSAN": 158,
     "DAEGU": 102,
     "GWANGJU": 20,

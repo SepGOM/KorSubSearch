@@ -43,7 +43,9 @@ beforeAll(() => {
   // 지역)가 아니다. KTX처럼 도시 지역 역과 환승되는 노선은 station 자체는 그
   // 도시 지역 대표를 갖지만, 그 노선(station_line) 행은 자기 범위(KTX)를 그대로
   // 유지하므로 line.regionCode로 걸러야 실제 그 범위에 속한 노선만 남는다.
-  seoulRecords = records.filter((r) => r.line.regionCode === 'SEOUL_METRO')
+  // ITX-청춘은 경춘선과 같은 서울·수도권 region을 쓰지만(자동 병합용) 서울·수도권 범위에는
+  // 뜨지 않는다 — App.tsx와 같이 열차 종류(trainServiceCode)가 있는 노선은 뺀다.
+  seoulRecords = records.filter((r) => r.line.regionCode === 'SEOUL_METRO' && !r.line.trainServiceCode)
   busanRecords = records.filter((r) => r.line.regionCode === 'BUSAN')
   daeguRecords = records.filter((r) => r.line.regionCode === 'DAEGU')
   gwangjuRecords = records.filter((r) => r.line.regionCode === 'GWANGJU')
@@ -1532,7 +1534,7 @@ describe('실제 데이터: ITX-새마을 (mugunghwa-ITXsaemaul/itx_saemaul_*.cs
   // ITX-새마을은 무궁화호와 같은 재래선 역들을 쓰기 때문에 역 마스터를 그대로
   // 재사용한다(사용자 확인). 같은 pseudo-region("MUGUNGHWA")에 line.trainServiceCode
   // 만 "ITX"로 달리해 "운행 범위 선택"에서 별도 버튼(ITX)으로 나뉜다.
-  const itx = () => records.filter((r) => r.line.trainServiceCode === 'ITX')
+  const itx = () => records.filter((r) => r.line.lineCode.startsWith('ITX-SAEMAUL'))
 
   it('노선 선택에는 경부·경전·호남·전라 4개만 나온다 — 호남선의 두 번째 계통(용산-광주)은 자식이라 빠진다', () => {
     const lines = deriveSelectableLines(itx())
@@ -1595,10 +1597,72 @@ describe('실제 데이터: ITX-새마을 (mugunghwa-ITXsaemaul/itx_saemaul_*.cs
     expect(new Set(badgeNames).size).toBe(badgeNames.length)
   })
 
-  it('scope_option의 ITX는 AVAILABLE이고 train_service_code="ITX"로 걸러낸다', () => {
+  it('scope_option의 ITX는 AVAILABLE이고 train_service_code="ITX"로 걸러낸다(region_code는 비어 있다 — 새마을·청춘이 서로 다른 region을 쓴다)', () => {
     const scope = loadScopeOptions(db).find((s) => s.scope_code === 'ITX')!
     expect(scope.status).toBe('AVAILABLE')
     expect(scope.kind).toBe('TRAIN_SERVICE')
     expect(scope.train_service_code).toBe('ITX')
+    expect(scope.region_code).toBeNull()
+  })
+
+  it('ITX 범위 노선 선택은 ITX-청춘이 맨 앞이고 새마을 4개가 뒤따른다(게임 화면 순서)', () => {
+    const all = records.filter((r) => r.line.trainServiceCode === 'ITX')
+    expect(deriveSelectableLines(all).map((l) => l.displayName)).toEqual([
+      'ITX-청춘',
+      'ITX-새마을-경부',
+      'ITX-새마을-경전',
+      'ITX-새마을-호남',
+      'ITX-새마을-전라',
+    ])
+  })
+})
+
+describe('실제 데이터: ITX-청춘 (itx_cheongchun/*.csv, 수도권 경춘선과 선로·역 공용, 2026-09-19)', () => {
+  const cheongchun = () => records.filter((r) => r.line.lineCode === 'ITX-CHEONGCHUN')
+
+  it('용산→춘천 15개 역이 pattern_stops 순서 그대로 나오고, 서울·수도권 범위 노선 선택에는 뜨지 않는다', () => {
+    const line = cheongchun()[0].line
+    const names = listStationsOnLine(records, line.lineId).map((s) => s.displayStationName)
+    expect(names).toHaveLength(15)
+    expect(names.slice(0, 5)).toEqual(['용산역', '옥수역', '왕십리역', '청량리역', '상봉역'])
+    expect(names.at(-1)).toBe('춘천역')
+    expect(line.iconLabel).toBe('청춘')
+    expect(line.trainServiceCode).toBe('ITX')
+    expect(deriveSelectableLines(seoulRecords).some((l) => l.displayName === 'ITX-청춘')).toBe(false)
+  })
+
+  it('경춘선과 같은 역은 같은 station으로 합쳐져 서로 환승 배지가 붙는다 — 용산·청량리는 1호선 등과도 이어진다', () => {
+    const stationIdsOn = (lineCode: string) => new Set(records.filter((r) => r.line.lineCode === lineCode).map((r) => r.stationId))
+    const gyeongchun = stationIdsOn('KR-GYEONGCHUN')
+    const shared = cheongchun().filter((r) => gyeongchun.has(r.stationId)).map((r) => r.displayStationName)
+    expect(shared).toEqual(
+      expect.arrayContaining(['청량리역', '상봉역', '퇴계원역', '사릉역', '평내호평역', '마석역', '청평역', '가평역', '백양리역', '강촌역', '남춘천역', '춘천역']),
+    )
+
+    const cheongryangri = searchGrouped(records, '청량리', { limit: 5 }).find((g) => g.displayStationName === '청량리역')!
+    expect(cheongryangri.lines.map((l) => l.line.displayName)).toEqual(
+      expect.arrayContaining(['ITX-청춘', '경춘선', '1호선', '경의중앙선']),
+    )
+    const yongsan = searchGrouped(records, '용산', { limit: 5 }).find((g) => g.displayStationName === '용산역')!
+    expect(yongsan.lines.map((l) => l.line.displayName)).toEqual(expect.arrayContaining(['ITX-청춘', '1호선', '경의중앙선']))
+  })
+
+  it('색은 노선도의 경춘선 초록이며 ITX-새마을 노선 색과 전부 뚜렷이 다르다(경전선 청록과 헷갈리지 않게)', () => {
+    const color = cheongchun()[0].line.colorHex!
+    expect(color).toBe('#34A944')
+    const others = new Set(
+      records.filter((r) => r.line.lineCode.startsWith('ITX-SAEMAUL')).map((r) => r.line.colorHex!),
+    )
+    const dist = (a: string, b: string) => {
+      const c = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+      const [x, y] = [c(a), c(b)]
+      return Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2])
+    }
+    for (const other of others) expect(dist(color, other), `${color} vs ${other}`).toBeGreaterThan(80)
+  })
+
+  it('"청춘"·"경춘선"으로 검색해도 ITX-청춘 역이 나오고, 서울·수도권 범위 후보에는 섞이지 않는다', () => {
+    expect(search(records, '청춘', { limit: 50 }).some((r) => r.record.line.lineCode === 'ITX-CHEONGCHUN')).toBe(true)
+    expect(seoulRecords.some((r) => r.line.lineCode === 'ITX-CHEONGCHUN')).toBe(false)
   })
 })

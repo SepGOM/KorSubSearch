@@ -44,15 +44,19 @@ function App() {
     // 갖지만, 그 역에 딸린 개별 station_line(예: "KTX-경부")은 자기 노선이 속한
     // 범위를 그대로 유지한다. station 쪽 값으로 필터링하면 그런 환승역의 행이
     // 통째로 빠져 버린다.
-    // 아직 데이터가 없는 열차 종류(ITX/무궁화호)는 그 코드를 가진 line이 없어
-    // 자연히 빈 배열이 된다.
+    // 데이터가 없는 열차 종류는 그 코드를 가진 line이 없어 자연히 빈 배열이 된다.
     if (selectedScope.trainServiceCode) {
       return indexState.index.stationLines.filter(
         (r) => r.line.trainServiceCode === selectedScope.trainServiceCode,
       )
     }
+    // 도시 지역 범위에서는 열차 종류(trainServiceCode)가 있는 노선을 뺀다 — ITX-청춘은
+    // 경춘선과 같은 서울·수도권 region을 써서(그래야 경춘선·1호선 등과 자동으로 같은
+    // 역으로 합쳐진다) regionCode만 보면 "서울·수도권" 노선 선택에 섞여 들어온다.
     if (selectedScope.regionCode) {
-      return indexState.index.stationLines.filter((r) => r.line.regionCode === selectedScope.regionCode)
+      return indexState.index.stationLines.filter(
+        (r) => r.line.regionCode === selectedScope.regionCode && !r.line.trainServiceCode,
+      )
     }
     return []
   }, [indexState, selectedScope])

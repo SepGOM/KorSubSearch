@@ -384,3 +384,14 @@
 - **색상**: 제공된 Railmap 노선도 이미지의 노선 라벨 영역 최빈 픽셀값을 옮겼다(경부 `#1361A4`·경전 `#009BCD`·호남 용산-목포 `#F09F7F`·용산-광주 `#D37D6F`·전라 `#91659F`) — `rail-line-colors-source.json`에 새 출처 `railmap-national-map`으로 기록(공식 색 아님).
 - **오타 유사일치 제거(사용자 요청)**: 새 ITX 노선의 별칭 "ITX"가 편집 거리 1로 "GTX"와 걸려 "GTX-A" 검색에 ITX 노선이 섞이는 회귀가 드러난 직후, 사용자가 "오타 유사일치 시스템 제거"를 요청했다. `score.ts`에서 `FUZZY_MATCH` 범주·랭크와 `fuzzyIncludes` 호출을 없애고 `src/lib/normalize/fuzzy.ts`·`tests/unit/fuzzy.test.ts`를 삭제했다(`LINE_FILTER_ONLY_RANK`는 9→8). 이제 역명·초성·노선 별칭이 정확히 포함될 때만 검색된다("경천철" 같은 오타는 결과 없음).
 - **검증**: 재수입(1709→1832행) + `db:validate` 통과. 단위/통합 테스트 256개(ITX 전용 6건 신설, 퍼지 관련 3건 갱신, scope_option 테스트에서 COMING_SOON이 하나도 남지 않음을 확인) + e2e 33개(옛 "ITX 추후 지원 비활성" 테스트를 "모든 범위 활성"으로 교체, ITX 범위·서울역 환승 배지 2건 신설) 통과.
+
+## 확장 32: ITX-청춘 추가
+
+사용자가 "ITX 청춘 데이터 추가 완료 / 기존 수도권 경춘선을 공용으로 사용하는 노선임 / 구분 색은 역시 이전에 제공한 이미지의 색을 활용 / 뭔가 경전선이랑 색이 비슷한 것 같은데, 차별점 필요해보임"이라고 요청했다. 원본은 `data/raw/itx_cheongchun/{cheongchun_stations,itx_cheongchun_pattern_stops}.csv` — 계통 IC01 하나(용산→춘천 15개 역), patterns.csv는 없다.
+
+- **로더/정의**: `itxCheongchunSource.ts`·`itxCheongchunDefinitions.ts`(patterns.csv가 없어 노선 정의가 그 자리를 대신). 계통이 하나라 group/토글 없는 평면 노선 `ITX-청춘`(`lineCode` ITX-CHEONGCHUN, 아이콘 "청춘"), `sourceRecordId`는 `ITXC-IC01-<station_id>`.
+- **region = 서울·수도권("SEOUL_METRO")**: 경춘선의 선로·역을 공용하므로 별도 pseudo-region 없이 경춘선과 같은 region에 두었다 — 같은 region+같은 역명 자동 병합만으로 15개 역이 전부 기존 역과 하나로 합쳐진다(경춘선 12개 역, 그리고 용산·옥수·왕십리·청량리는 1호선·경의중앙선·2·3·5호선·수인분당선·KTX·무궁화호 환승 그룹에 합류; 별도 override 없음). 화면의 ITX 범위 구분은 `line.train_service_code="ITX"`다.
+- **App.tsx 범위 필터 보정**: 도시 지역 범위(서울·수도권 등)는 `line.regionCode`만 보고 걸렀기 때문에 같은 region을 쓰는 ITX-청춘이 "서울·수도권" 노선 선택에 섞여 들어오게 된다 — 지역 범위에서는 `trainServiceCode`가 있는 노선을 빼도록 고쳤다(다른 지역 범위는 원래 그런 노선이 없어 영향 없음). 테스트 헬퍼 `seoulRecords`도 같은 기준으로 맞췄다.
+- **ITX 범위**: `scope_option`의 ITX는 새마을(region "MUGUNGHWA")과 청춘(region "SEOUL_METRO")이 서로 다른 region을 써 하나로 묶을 수 없어 `region_code`를 비웠다(필터는 원래도 train_service_code). 노선 선택 순서는 게임 화면대로 ITX-청춘(sortOrder 790)이 맨 앞, 새마을 4개(800번대)가 뒤따른다.
+- **색상 — 경전선과의 구분**: 게임 화면의 ITX-청춘 아이콘 색(`#1AA4C8`)은 ITX-새마을-경전(`#009BCD`)과 거의 같은 청록이라 헷갈린다는 지적이 맞아, 같은 이전 이미지 중 Railmap 전국 노선도의 **경춘선 색(초록 `#34A944`)**을 썼다. 새마을 5개 노선 색과의 RGB 거리가 모두 80 이상임을 테스트로 고정했다. 참고: 수도권 경춘선 배지(`#0C8E72`, 위키백과)와는 같은 초록 계열이라, 한 역에서 나란히 뜰 때는 아이콘 글자("청춘"/"경춘")로 구분된다 — 더 벌리고 싶으면 색만 바꾸면 된다.
+- **검증**: 재수입(1832→1847행) + `db:validate` 통과, 단위/통합 261개(ITX-청춘 4건·범위 순서 1건 신설) + e2e 35개(서울·수도권 범위 미노출+경춘선 배지 공존, ITX-청춘 15개 역 2건 신설) + tsc/oxlint 통과.

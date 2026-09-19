@@ -621,9 +621,9 @@ test('무궁화호 "충북선"을 고르면 대표(동대구-영주) 패널과 �
   await expect(childList).toContainText('서울')
 })
 
-test('ITX 범위: 노선 선택에 ITX-새마을 4개가 나오고, 호남선을 고르면 대표(용산-목포)·자식(용산-광주) 패널이 함께 나온다(2026-09-19)', async ({ page }) => {
+test('ITX 범위: 노선 선택에 ITX-청춘과 ITX-새마을 4개가 나오고, 호남선을 고르면 대표(용산-목포)·자식(용산-광주) 패널이 함께 나온다(2026-09-19)', async ({ page }) => {
   await page.getByRole('radio', { name: 'ITX' }).click()
-  for (const name of ['ITX-새마을-경부', 'ITX-새마을-경전', 'ITX-새마을-호남', 'ITX-새마을-전라']) {
+  for (const name of ['ITX-청춘', 'ITX-새마을-경부', 'ITX-새마을-경전', 'ITX-새마을-호남', 'ITX-새마을-전라']) {
     await expect(page.getByRole('button', { name, exact: true })).toBeVisible()
   }
   // 무궁화호 노선은 이 범위에 섞이지 않는다.
@@ -643,4 +643,25 @@ test('ITX 범위: 서울역 검색 시 무궁화호·KTX 환승 배지가 함께
   await expect(option.getByRole('img', { name: 'ITX-새마을-경부', exact: true })).toBeVisible()
   await expect(option.getByRole('img', { name: '경부선', exact: true })).toBeVisible()
   await expect(option.getByRole('img', { name: 'KTX-경부-행신착발', exact: true })).toBeVisible()
+})
+
+test('ITX-청춘은 서울·수도권 범위의 노선 선택에는 뜨지 않지만, 경춘선 역 검색 결과에는 청춘·경춘 배지가 함께 보인다(2026-09-19)', async ({ page }) => {
+  // 기본 범위(서울·수도권)
+  await expect(page.getByRole('button', { name: '경춘선', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'ITX-청춘', exact: true })).toHaveCount(0)
+
+  await page.getByRole('combobox').fill('가평')
+  const option = page.getByRole('listbox').getByRole('option').first()
+  await expect(option.getByRole('img', { name: '경춘선', exact: true })).toBeVisible()
+  await expect(option.getByRole('img', { name: 'ITX-청춘', exact: true })).toBeVisible()
+})
+
+test('ITX-청춘을 고르면 용산→춘천 15개 역이 나온다', async ({ page }) => {
+  await page.getByRole('radio', { name: 'ITX' }).click()
+  await page.getByRole('button', { name: 'ITX-청춘', exact: true }).click()
+  await page.getByRole('button', { name: /이 노선의 역 보기/ }).click()
+  const items = page.getByRole('list').getByRole('listitem')
+  await expect(items).toHaveCount(15)
+  await expect(items.first()).toContainText('용산')
+  await expect(items.last()).toContainText('춘천')
 })

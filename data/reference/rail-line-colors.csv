@@ -70,3 +70,4 @@ TRAIN_SERVICE,KR,ITX-SAEMAUL-GYEONGJEON,ITX-새마을 경전선(서울-진주),#
 TRAIN_SERVICE,KR,ITX-SAEMAUL-HONAM,ITX-새마을 호남선(용산-목포),#F09F7F,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
 TRAIN_SERVICE,KR,ITX-SAEMAUL-HONAM-GWANGJU,ITX-새마을 호남선(용산-광주),#D37D6F,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
 TRAIN_SERVICE,KR,ITX-SAEMAUL-JEOLLA,ITX-새마을 전라선(용산-여수엑스포),#91659F,#FFFFFF,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,
+TRAIN_SERVICE,KR,ITX-CHEONGCHUN,ITX-청춘 (용산-춘천),#34A944,#000000,"Railmap(rail.it.kr) 전국 일반여객철도 노선도 (2026.9.1 기준, 제작 SeoulNamsan)",https://rail.it.kr,2026-09-01,2026-09-19,"Railmap 노선도의 경춘선 색. 게임 화면 아이콘 색(#1AA4C8)은 ITX-새마을-경전(#009BCD)과 비슷해 쓰지 않았다(사용자 확인: '경전선이랑 색이 비슷한 것 같은데, 차별점 필요해보임')."
