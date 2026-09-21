@@ -1669,3 +1669,30 @@ describe('실제 데이터: ITX-청춘 (itx_cheongchun/*.csv, 수도권 경춘�
     expect(seoulRecords.some((r) => r.line.lineCode === 'ITX-CHEONGCHUN')).toBe(false)
   })
 })
+
+describe('실제 데이터: 공항철도 역 순서 — 0이 붙은 세 자리 역번호는 하이픈 뒤 번호처럼 취급한다(2026-09-22)', () => {
+  // 사용자 확인: "숫자가 두자리수가 되면 A다음으로 오지 0이 있는 경우 셋째자리는 다시
+  // 1과 같은 역할이기 때문이야." — A042(마곡나루)·A071(청라국제도시)·A072(영종)는
+  // 숫자값으로 자연정렬하면 42·71·72라 종점(A11) 뒤로 밀리므로 station-line-sequence.csv로
+  // 정렬 전용 키(A04-2·A07-1·A07-2)를 줬다.
+  it('A01(서울역)→A11(인천공항2터미널) 순으로 나오고 마곡나루·청라국제도시·영종이 제자리에 낀다', () => {
+    const airport = records.find((r) => r.line.displayName === '공항철도')!.line
+    const names = listStationsOnLine(records, airport.lineId).map((s) => s.displayStationName)
+    expect(names).toEqual([
+      '서울역',
+      '공덕역',
+      '홍대입구역',
+      '디지털미디어시티역',
+      '마곡나루역',
+      '김포공항역',
+      '계양역',
+      '검암역',
+      '청라국제도시역',
+      '영종역',
+      '운서역',
+      '공항화물청사역',
+      '인천공항1터미널역',
+      '인천공항2터미널역',
+    ])
+  })
+})
