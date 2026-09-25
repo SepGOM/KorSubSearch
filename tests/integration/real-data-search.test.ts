@@ -1696,3 +1696,15 @@ describe('실제 데이터: 공항철도 역 순서 — 0이 붙은 세 자리 �
     ])
   })
 })
+
+describe('실제 데이터: 1호선 연천~소요산 구간 순서 — 하이픈 역번호가 북쪽으로 갈수록 커진다(2026-09-26)', () => {
+  // 사용자 확인: "수도권전철1호선은 연천-소요산 구간은 숫자의 오름차순이 아닌, 내림차순으로
+  // 정렬이 되네." — 청산 100-1 · 전곡 100-2 · 연천 100-3은 자연정렬하면 소요산(100) 뒤에
+  // 내림차순(청산→전곡→연천)으로 붙어 버려서 station-line-sequence.csv로 정렬 키를 줬다.
+  it('연천→전곡→청산→소요산→동두천 순으로 나온다(맨 앞이 연천이고 총 65개 역은 그대로)', () => {
+    const line1 = records.find((r) => r.line.lineCode === 'SM-1')!.line
+    const names = listStationsOnLine(records, line1.lineId).map((s) => s.displayStationName)
+    expect(names.slice(0, 6)).toEqual(['연천역', '전곡역', '청산역', '소요산역', '동두천역', '보산역'])
+    expect(names).toHaveLength(65)
+  })
+})
