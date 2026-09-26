@@ -12,6 +12,7 @@
 import { includesConsecutiveInitials, initialsExactMatch, initialsStartsWith, isInitialsQuery } from '../normalize/hangul'
 import { normalizeForCompare, stripStationSuffix } from '../normalize/text'
 import type { LineRecord, StationLineRecord } from './types'
+import { rootLine } from './lineHierarchy'
 
 export type MatchCategory =
   | 'STATION_EXACT'
@@ -98,7 +99,7 @@ export function matchTextToken(
   // 또는 경의1선과 같은걸로는 필터링 되지 않게") — lineById가 없거나 본선 정보를
   // 못 찾으면(예: 단위 테스트에서 부모 레코드를 안 넘긴 경우) 안전하게 자기
   // 자신의 이름으로 대체한다.
-  const keywordLine = (record.line.parentLineId && lineById?.get(record.line.parentLineId)) || record.line
+  const keywordLine = lineById ? rootLine(record.line, lineById) : record.line
   const aliasHaystacks = [
     ...record.aliases,
     keywordLine.normalizedName,

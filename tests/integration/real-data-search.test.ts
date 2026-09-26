@@ -533,14 +533,15 @@ describe('실제 데이터: 1호선 본선 ↔ 경부/장항선 ↔ 경부고속
     expect(byeongjeomStation.branchLines.map((l) => l.displayName)).toEqual(['병점기지선'])
   })
 
-  it('다른 노선(예: KTX)에서 경부고속선 소속 역(광명)을 보면, 지선 자신이 아니라 그 바로 위 부모(경부/장항선)의 정체성으로 배지가 붙는다 — 한 단계만 올라가지 더 위(1호선)까지는 안 간다', () => {
-    // 광명역은 KTX와 경부고속선(1호선의 지선의 지선)의 실제 환승역이다.
+  it('다른 노선(예: KTX)에서 경부고속선 소속 역(광명)을 보면, 지선의 지선도 최상위 본선인 "1호선" 배지 하나로 나온다(2026-09-27: 예전엔 한 단계만 올라가 "경부/장항선"으로 나왔다)', () => {
+    // 광명역은 KTX와 경부고속선(1호선의 지선의 지선)의 실제 환승역이다. 지선일 뿐이므로
+    // 경부고속선·경부/장항선이 아니라 큰 노선 "1호선"만 표기한다(사용자 확인).
     const ktxGwangmyeong = records.find((r) => r.officialStationName === '광명역' && r.line.displayName === 'KTX-경부-행신착발')!
     const stations = listStationsOnLine(records, ktxGwangmyeong.line.lineId)
     const station = stations.find((s) => s.officialStationName === '광명역')!
-    expect(station.transferLines.map((l) => l.displayName)).toContain('경부/장항선')
+    expect(station.transferLines.map((l) => l.displayName)).toContain('1호선')
+    expect(station.transferLines.some((l) => l.displayName === '경부/장항선')).toBe(false)
     expect(station.transferLines.some((l) => l.displayName === '경부고속선')).toBe(false)
-    expect(station.transferLines.some((l) => l.displayName === '1호선')).toBe(false)
   })
 
   it('경부/장항선 소속 역(금정)을 다른 노선(4호선)에서 보면, 경부/장항선의 부모인 "1호선" 배지가 붙는다', () => {
@@ -551,16 +552,15 @@ describe('실제 데이터: 1호선 본선 ↔ 경부/장항선 ↔ 경부고속
     expect(station.transferLines.map((l) => l.displayName)).toEqual(['1호선'])
   })
 
-  it('지선 자신의 이름으로는 그 소속 역이 검색되지 않는다 — "경부/장항선"은 수원(직속)을 못 찾고, "경부고속선"·"병점기지선"은 자기 자신이니 아예 0건이다', () => {
+  it('지선 자신의 이름으로는 그 소속 역이 검색되지 않는다 — "경부/장항선"은 수원(직속)·광명·서동탄을 못 찾고, "경부고속선"·"병점기지선"은 자기 자신이니 아예 0건이다', () => {
     // 수원(경부/장항선 직속)은 "경부/장항선"이라는 지선 자신의 이름으로는 안 잡힌다.
     const byGyeongbuJanghangName = search(seoulRecords, '경부/장항선', { limit: 500 })
     expect(byGyeongbuJanghangName.some((r) => r.record.officialStationName === '수원역')).toBe(false)
-    // 반대로 광명·서동탄(경부고속선·병점기지선 소속)은 자신의 바로 위 부모인
-    // "경부/장항선"이 officialName에 그 문자열을 담고 있어 함께 걸린다 — 광명·
-    // 서동탄 입장에서 "경부/장항선"은 자기 이름이 아니라 부모 이름이므로 정상
-    // 허용이다(5호선 키워드로 마천지선을 찾는 것과 같은 원리).
-    expect(byGyeongbuJanghangName.some((r) => r.record.officialStationName === '광명역')).toBe(true)
-    expect(byGyeongbuJanghangName.some((r) => r.record.officialStationName === '서동탄역')).toBe(true)
+    // 광명·서동탄(경부고속선·병점기지선 소속)도 마찬가지다 — 노선 키워드는 지선이 아니라
+    // 최상위 본선("1호선")의 이름·별칭으로만 걸리므로, 한 단계 위 부모인 "경부/장항선"으로도
+    // 안 잡힌다(2026-09-27 이전엔 바로 위 부모 이름으로 걸렸다).
+    expect(byGyeongbuJanghangName.some((r) => r.record.officialStationName === '광명역')).toBe(false)
+    expect(byGyeongbuJanghangName.some((r) => r.record.officialStationName === '서동탄역')).toBe(false)
 
     expect(search(seoulRecords, '경부고속선', { limit: 50 })).toHaveLength(0)
     expect(search(seoulRecords, '병점기지선', { limit: 50 })).toHaveLength(0)
@@ -1429,11 +1429,16 @@ describe('실제 데이터: 노선 필터', () => {
   })
 })
 
+const LINE1_FAMILY = ['1호선', '경부/장항선', '경부고속선', '병점기지선']
+
 describe('실제 데이터: 노선 번호 토큰의 지역 모호성(사용자 확인: "1만 입력해도 인천, 부산, 대구, 광주 다 뜨기 때문에")', () => {
   it('"서울·수도권" 범위(seoulRecords)에서 "1"만 입력하면 순수 "1호선"만 나오고 인천 1호선은 안 나온다', () => {
     const results = search(seoulRecords, '1', { limit: 200 })
     expect(results.length).toBeGreaterThan(0)
-    expect(results.every((r) => r.record.line.displayName === '1호선')).toBe(true)
+    // 1호선 계열(본선 + 지선·지선의 지선)만 나온다 — 병점기지선·경부고속선 소속 역도
+    // 1호선의 일부이므로 "1"로 찾을 수 있다(2026-09-27).
+    expect(results.every((r) => LINE1_FAMILY.includes(r.record.line.displayName))).toBe(true)
+    expect(results.some((r) => r.record.line.displayName === '1호선')).toBe(true)
   })
 
   it('"인1"으로는 인천 1호선만 나온다', () => {
@@ -1451,7 +1456,7 @@ describe('실제 데이터: 노선 번호 토큰의 지역 모호성(사용자 �
   it('전체(records) 범위에서 "1"만 입력해도 수도권 1호선만 나오고 부산·대구·광주·대전·인천 1호선은 섞이지 않는다', () => {
     const results = search(records, '1', { limit: 500 })
     expect(results.length).toBeGreaterThan(0)
-    expect(results.every((r) => r.record.line.displayName === '1호선')).toBe(true)
+    expect(results.every((r) => LINE1_FAMILY.includes(r.record.line.displayName))).toBe(true)
   })
 
   it('전체(records) 범위에서도 지역 전용 키워드로는 각 지역 1호선을 정확히 찾을 수 있다(부1·대구1·광1·대전1)', () => {
@@ -1706,5 +1711,36 @@ describe('실제 데이터: 1호선 연천~소요산 구간 순서 — 하이픈
     const names = listStationsOnLine(records, line1.lineId).map((s) => s.displayStationName)
     expect(names.slice(0, 6)).toEqual(['연천역', '전곡역', '청산역', '소요산역', '동두천역', '보산역'])
     expect(names).toHaveLength(65)
+  })
+})
+
+describe('실제 데이터: 1호선 지선의 지선(경부고속선·병점기지선) 검색과 배지(2026-09-27)', () => {
+  // 사용자 확인: "1호선 경부고속선 및 병점기지선은 '1 ㅂㅈ', '1 ㄱㅁ'으로 검색 불가. 해당
+  // 문제 해결 / 병점, 금천구청 역 정보에 대해서 (1)표시가 두개가 뜸. 지선일 뿐, 환승정보가
+  // 아님." — 노선 번호 필터가 지선의 지선(lineNumber 없음)을 못 통과했고, 배지 치환이 한 단계만
+  // 올라가 병점·금천구청에 같은 "1" 배지가 둘 붙었다. 이제 둘 다 최상위 본선(1호선) 기준이다.
+  it('"1 ㅂㅈ"으로 병점(병점기지선 분기역)이, "1 ㄱㅁ"으로 광명(경부고속선)이 검색된다', () => {
+    const byeongjeom = search(seoulRecords, '1 ㅂㅈ', { limit: 50 })
+    expect(byeongjeom.some((r) => r.record.officialStationName === '병점역')).toBe(true)
+    const gwangmyeong = search(seoulRecords, '1 ㄱㅁ', { limit: 50 })
+    expect(gwangmyeong.some((r) => r.record.officialStationName === '광명역')).toBe(true)
+    // 지선의 지선 소속 역(서동탄·광명) 자체도 초성으로 찾을 수 있다.
+    expect(search(seoulRecords, '1 ㅅㄷㅌ', { limit: 50 }).some((r) => r.record.officialStationName === '서동탄역')).toBe(true)
+  })
+
+  it('"1호선"을 고른 채 병점·광명을 검색해도 지선의 지선 소속 역이 나온다', () => {
+    const line1 = seoulRecords.find((r) => r.line.lineCode === 'SM-1')!.line
+    expect(search(seoulRecords, '병점', { lineId: line1.lineId }).some((r) => r.record.officialStationName === '병점역')).toBe(true)
+    expect(search(seoulRecords, '광명', { lineId: line1.lineId }).some((r) => r.record.officialStationName === '광명역')).toBe(true)
+  })
+
+  it('병점·금천구청 검색 결과에는 "1호선" 배지가 하나만 붙는다(지선은 환승이 아니다)', () => {
+    for (const name of ['병점', '금천구청']) {
+      const group = searchGrouped(seoulRecords, name, { limit: 5 }).find((g) => g.displayStationName === `${name}역`)!
+      expect(group, name).toBeDefined()
+      const names = group.lines.map((l) => l.line.displayName)
+      expect(names.filter((n) => n === '1호선'), `${name} 배지: ${names.join(',')}`).toHaveLength(1)
+      expect(names.some((n) => n === '경부/장항선' || n === '병점기지선' || n === '경부고속선')).toBe(false)
+    }
   })
 })

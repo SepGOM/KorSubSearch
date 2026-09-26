@@ -12,6 +12,7 @@ import { parseLineNumberToken } from '../normalize/line'
 import { normalizeForCompare, stripStationSuffix } from '../normalize/text'
 import { MATCH_CATEGORY_RANK, LINE_FILTER_ONLY_RANK, matchTextToken, type TokenMatch } from './score'
 import type { LineRecord, StationLineRecord } from './types'
+import { isSelfOrDescendantOf, rootLine } from './lineHierarchy'
 
 interface Scored {
   record: StationLineRecord
@@ -71,8 +72,12 @@ function evaluateRecord(
   ambiguousNumbers: Set<number>,
   lineById: Map<string, LineRecord>,
 ): { tokenMatches: TokenMatch[]; lineNumberTokens: number[] } | null {
+  // 노선 번호·지역 모호성 판정은 최상위 본선 기준이다 — 병점기지선·경부고속선처럼
+  // 지선의 지선은 lineNumber가 없지만 1호선의 일부이므로 "1"로 찾을 수 있어야 한다
+  // (사용자 확인: "1 ㅂㅈ", "1 ㄱㅁ"으로 검색 불가 문제).
+  const identityLine = rootLine(record.line, lineById)
   for (const number of lineNumberTokens) {
-    if (record.line.lineNumber !== number) return null
+    if (identityLine.lineNumber !== number) return null
     // 같은 번호를 가진 노선이 지금 후보군 안에 여러 지역에 걸쳐 있으면(예:
     // "서울·수도권" 범위에서 1호선과 인천 1호선이 같이 있거나, "전체" 범위에서
     // 1~9호선에 부산·대구·광주·대전까지 겹치면) 접두어 없는 숫자만으로는 어느
@@ -81,7 +86,7 @@ function evaluateRecord(
     // 범위를 그 지역 하나로 좁혀서 겹칠 일이 없으면(후보군에 그 번호를 가진
     // 노선이 하나뿐이면) 평소처럼 숫자만으로 찾을 수 있다(사용자 확인: "운행
     // 범위를 부산으로 지정 시, 1만 적어도 부산 1호선이 검색되어야 한다").
-    if (ambiguousNumbers.has(number) && !isCanonicalNumberedLine(record.line)) return null
+    if (ambiguousNumbers.has(number) && !isCanonicalNumberedLine(identityLine)) return null
   }
 
   const tokenMatches: TokenMatch[] = []
@@ -157,20 +162,25 @@ function evaluateAndSort(
   // 선택한 채로는 절대 찾을 수 없어진다(사용자 확인: "지선에있는 역들은 검색이
   // 안되네"). "이 노선의 역 보기" 패널에서 지선을 본선 아래 별도 패널로 보여주는
   // 것과 같은 원칙 — 지선은 본선 선택 범위에 포함된 것으로 취급한다.
-  const scoped = lineId
-    ? candidates.filter((record) => record.line.lineId === lineId || record.line.parentLineId === lineId)
-    : candidates
-
   // 지선의 본선 정체성을 찾거나(키워드 매칭용), 노선 번호가 지금 후보군 안에서
-  // 여러 노선에 겹쳐 있는지(지역 모호성 판정용) 확인하는 데 쓸 조회용 자료.
+  // 여러 노선에 겹쳐 있는지(지역 모호성 판정용) 확인하는 데 쓸 조회용 자료. 부모 노선
+  // 레코드가 노선 선택 등으로 걸러져 없어도 계층을 따라 올라갈 수 있도록 candidates
+  // 전체로 만든다.
   const lineById = new Map<string, LineRecord>()
-  for (const r of scoped) lineById.set(r.line.lineId, r.line)
+  for (const r of candidates) lineById.set(r.line.lineId, r.line)
+
+  // 지선은 몇 단계 아래든(1호선 → 경부/장항선 → 병점기지선) 본선 선택 범위에 포함된다.
+  const scoped = lineId
+    ? candidates.filter((record) => isSelfOrDescendantOf(record.line, lineId, lineById))
+    : candidates
 
   const ambiguousNumbers = new Set<number>()
   for (const number of lineNumberTokens) {
-    const linesForNumber = new Set(
-      scoped.filter((r) => r.line.lineNumber === number).map((r) => r.line.lineId),
-    )
+    const linesForNumber = new Set<string>()
+    for (const r of scoped) {
+      const identity = rootLine(r.line, lineById)
+      if (identity.lineNumber === number) linesForNumber.add(identity.lineId)
+    }
     if (linesForNumber.size > 1) ambiguousNumbers.add(number)
   }
 
@@ -414,10 +424,14 @@ export interface LineStationEntry {
   branchLines: LineRecord[]
 }
 
-/** 지선 소속 노선을 그 본선의 정체성으로 치환한다. 본선이 아니면 그대로 둔다. */
+/**
+ * 지선 소속 노선을 최상위 본선의 정체성으로 치환한다. 본선이면 그대로 둔다.
+ * "지선의 지선"(병점기지선·경부고속선)도 한 단계 위(경부/장항선)가 아니라 맨 위(1호선)로
+ * 올라간다 — 안 그러면 병점·금천구청처럼 지선이 갈라지는 역에 같은 "1" 아이콘 배지가
+ * 두 개 붙는다(사용자 확인: "지선일 뿐, 환승정보가 아님").
+ */
 function resolveDisplayLine(line: LineRecord, lineById: Map<string, LineRecord>): LineRecord {
-  if (!line.parentLineId) return line
-  return lineById.get(line.parentLineId) ?? line
+  return rootLine(line, lineById)
 }
 
 /**
@@ -428,9 +442,9 @@ function resolveDisplayLine(line: LineRecord, lineById: Map<string, LineRecord>)
  * 배지를 보여주면 안 되기 때문이다(사용자 확인: "운행방식에 대한 환승 알은
  * 표기하지 않아").
  */
-function isSameLineFamily(a: LineRecord, b: LineRecord): boolean {
-  if (a.lineId === b.lineId || a.parentLineId === b.lineId || b.parentLineId === a.lineId) return true
-  return a.parentLineId !== null && a.parentLineId === b.parentLineId
+function isSameLineFamily(a: LineRecord, b: LineRecord, lineById: Map<string, LineRecord>): boolean {
+  // 최상위 본선이 같으면 같은 계열이다(부모-자식·형제뿐 아니라 지선의 지선까지).
+  return rootLine(a, lineById).lineId === rootLine(b, lineById).lineId
 }
 
 /**
@@ -451,7 +465,7 @@ export function listStationsOnLine(candidates: StationLineRecord[], lineId: stri
   const branchLinesByStation = new Map<string, LineRecord[]>()
   for (const r of candidates) {
     if (!stationIdsOnLine.has(r.stationId)) continue
-    if (viewedLine && isSameLineFamily(r.line, viewedLine)) {
+    if (viewedLine && isSameLineFamily(r.line, viewedLine, lineById)) {
       // 본선-지선 관계는 서로 환승 배지로 보여주지 않는다. 대신 "지금 보는
       // 노선"의 지선이 바로 이 역에서 갈라지는 것이면(자기 자신은 제외) 분기
       // 표시용으로 따로 기록해 둔다 — 다만 물리적 분기가 아니라 같은 노선의

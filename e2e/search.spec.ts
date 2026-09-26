@@ -663,3 +663,19 @@ test('ITX-청춘을 고르면 용산→춘천 15개 역이 나온다', async ({ 
   await expect(items.first()).toContainText('용산')
   await expect(items.last()).toContainText('춘천')
 })
+
+test('1호선 지선의 지선: 병점에는 "1호선" 배지가 하나만 뜨고, "1 ㅂㅈ"·"1 ㄱㅁ"으로 병점·광명이 검색된다(2026-09-27)', async ({ page }) => {
+  const combobox = page.getByRole('combobox')
+  const listbox = page.getByRole('listbox')
+
+  await combobox.fill('병점')
+  const byeongjeom = listbox.getByRole('option').first()
+  await expect(byeongjeom).toContainText('병점')
+  await expect(byeongjeom.getByRole('img', { name: '1호선', exact: true })).toHaveCount(1)
+
+  await combobox.fill('1 ㅂㅈ')
+  await expect(listbox.getByRole('option').filter({ hasText: '병점' })).toHaveCount(1)
+
+  await combobox.fill('1 ㄱㅁ')
+  await expect(listbox.getByRole('option').filter({ hasText: '광명' }).first()).toBeVisible()
+})
